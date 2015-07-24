@@ -17,4 +17,4 @@ JFlat adheres to this philosophy. Reading a CSV file into a list of String items
 
 ##Getting started with JFlat
 
-You can get started by reading this short introduction Getting started with JFlat and by browsing the Javadoc
+You can get started by reading this short introduction [Getting started with JFlat](GettingStarted.md) and by browsing the Javadoc
