@@ -33,7 +33,8 @@ public class StockPriceReaderTest {
         assertEquals(1550.87, price.getOpenPrice(), 0.0001);
         assertEquals(1577.03, price.getClosePrice(), 2);
         assertEquals(1521220000, price.getVolume());
-        assertEquals("Wed Dec 31 00:00:00 PST 2008", price.getDate().toString());
+        //TODO Date formatting is deployment-specific
+        //assertEquals("Wed Dec 31 00:00:00 PST 2008", price.getDate().toString());
 
         FileWriter fw = new FileWriter("test.out");
         String[] properties = new String[] { "volume", "averagePrice", "date" };
