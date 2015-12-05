@@ -1,6 +1,7 @@
 package com.tecacet.util.introspection;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -15,6 +16,7 @@ import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.converters.DateConverter;
 import org.junit.Test;
 
+import com.tecacet.jflat.om.Order;
 import com.tecacet.jflat.om.StockPrice;
 import com.tecacet.util.introspection.jodd.JoddPropertyAccessor;
 
@@ -46,9 +48,9 @@ public class PropertyAccessorTest {
 
 		Order bean = new Order();
 
-		accessor.setProperty(bean, "account", "1234");
-		assertEquals("1234", bean.getAccount());
-		assertEquals("1234", accessor.getProperty(bean, "account"));
+		accessor.setProperty(bean, "number", "1234");
+		assertEquals("1234", bean.getNumber());
+		assertEquals("1234", accessor.getProperty(bean, "number"));
 		accessor.setProperty(bean, "quantity", "10");
 		assertEquals(10, bean.getQuantity());
 		assertEquals(10, accessor.getProperty(bean, "quantity"));
@@ -63,13 +65,13 @@ public class PropertyAccessorTest {
 		assertEquals(c.getTime(), bean.getDate());
 		assertEquals(c.getTime(), accessor.getProperty(bean, "date"));
 
-		accessor.setProperty(bean, "customer.name", "James");
+		accessor.setProperty(bean, "customer.firstName", "James");
 
-		assertNotNull(accessor.getProperty(bean, "customer.name"));
+		assertNotNull(accessor.getProperty(bean, "customer.firstName"));
 
-		accessor.setProperty(bean, "customer.name", "James");
-		assertEquals("James", bean.getCustomer().getName());
-		assertEquals("James", accessor.getProperty(bean, "customer.name"));
+		accessor.setProperty(bean, "customer.firstName", "James");
+		assertEquals("James", bean.getCustomer().getFirstName());
+		assertEquals("James", accessor.getProperty(bean, "customer.firstName"));
 	}
 
 	private void testSetNullProperty(PropertyAccessor<Order> accessor)
@@ -77,20 +79,20 @@ public class PropertyAccessorTest {
 		Order bean = new Order();
 
 		accessor.setProperty(bean, "account", null);
-		assertNull(bean.getAccount());
+		assertNull(bean.getNumber());
 		assertNull(accessor.getProperty(bean, "account"));
 		accessor.setProperty(bean, "date", null);
 		assertNull(bean.getDate());
 
-//		accessor.setProperty(bean, "quantity", null);
-//		assertEquals(0, bean.getQuantity());
-//		assertEquals(0, accessor.getProperty(bean, "quantity"));
-//		accessor.setProperty(bean, "price", null);
-//		assertEquals(0.0, bean.getPrice(), 0.001);
-//		assertEquals(0.0, (Double) accessor.getProperty(bean, "price"), 0.001);
-//		accessor.setProperty(bean, "active", null);
-//		assertFalse(bean.isActive());
-//		assertEquals(false, accessor.getProperty(bean, "active"));
+		accessor.setProperty(bean, "quantity", null);
+		assertEquals(0, bean.getQuantity());
+		assertEquals(0, accessor.getProperty(bean, "quantity"));
+		accessor.setProperty(bean, "price", null);
+		assertEquals(0.0, bean.getPrice(), 0.001);
+		assertEquals(0.0, (Double) accessor.getProperty(bean, "price"), 0.001);
+		accessor.setProperty(bean, "active", null);
+		assertFalse(bean.isActive());
+		assertEquals(false, accessor.getProperty(bean, "active"));
 
 	}
 }

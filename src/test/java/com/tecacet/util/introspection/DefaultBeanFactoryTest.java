@@ -21,6 +21,9 @@ import java.time.LocalDate;
 
 import org.junit.Test;
 
+import com.tecacet.jflat.om.Customer;
+import com.tecacet.jflat.om.Order;
+
 public class DefaultBeanFactoryTest {
 
     @Test
