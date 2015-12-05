@@ -20,7 +20,7 @@ import com.tecacet.jflat.om.Order;
 import com.tecacet.jflat.om.StockPrice;
 import com.tecacet.util.introspection.jodd.JoddPropertyAccessor;
 
-public class PropertyAccessorTest {
+public class JoddPropertyAccessorTest {
 
 	private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
