@@ -4,8 +4,7 @@ import jodd.typeconverter.TypeConverter;
 
 import com.tecacet.util.conversion.DataConverter;
 
-public class JoddToDataConverterAdapter<FROM, TO> implements
-		DataConverter<FROM, TO> {
+public class JoddToDataConverterAdapter<FROM, TO> implements DataConverter<FROM, TO> {
 
 	private final TypeConverter<TO> typeConverter;
 

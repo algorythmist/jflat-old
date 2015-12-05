@@ -60,10 +60,16 @@ public class DefaultCSVReaderTest {
         // test empty elements
         nextLine = csvReader.readNext();
         assertEquals(3, nextLine.length);
-
+        assertNull(nextLine[0]);
+        assertNull(nextLine[1]);
+        assertNull(nextLine[2]);
+        
         // test multiline quoted
         nextLine = csvReader.readNext();
         assertEquals(3, nextLine.length);
+        assertEquals("a", nextLine[0]);
+        assertEquals("PO Box 123,\nKippax,ACT. 2615.\nAustralia", nextLine[1]);
+        assertEquals("d.", nextLine[2]);
 
         // test quoted quote chars
         nextLine = csvReader.readNext();
@@ -76,7 +82,11 @@ public class DefaultCSVReaderTest {
 
         nextLine = csvReader.readNext();
         assertEquals(4, nextLine.length);
-
+        assertEquals("a\nb", nextLine[0]);
+        assertEquals("b", nextLine[1]);
+        assertEquals("\nd", nextLine[2]);
+        assertEquals("e", nextLine[3]);
+        
         // test end of stream
         assertNull(csvReader.readNext());
     }

@@ -45,7 +45,7 @@ public class BeanReaderRowMapper<T> implements ReaderRowMapper<T> {
 	private Class<T> type;
 
 	@SuppressWarnings("rawtypes")
-    private Map<String, DataConverter> converters = new HashMap<String, DataConverter>();
+	private Map<String, DataConverter> converters = new HashMap<String, DataConverter>();
 
 	/**
 	 * Construct a rowMapper using a BeanManipulator to create beans and
@@ -55,16 +55,14 @@ public class BeanReaderRowMapper<T> implements ReaderRowMapper<T> {
 	 * @param beanManipulator
 	 * @param columnMapping
 	 */
-	public BeanReaderRowMapper(Class<T> type,
-			PropertyAccessor<T> propertyAccessor, ColumnMapping columnMapping) {
+	public BeanReaderRowMapper(Class<T> type, PropertyAccessor<T> propertyAccessor, ColumnMapping columnMapping) {
 		this.columnMapping = columnMapping;
 		this.propertyAccessor = propertyAccessor;
 		this.type = type;
 		this.headerRow = 1;
 	}
 
-	public BeanReaderRowMapper(Class<T> type,
-			PropertyAccessor<T> propertyAccessor, ColumnMapping columnMapping,
+	public BeanReaderRowMapper(Class<T> type, PropertyAccessor<T> propertyAccessor, ColumnMapping columnMapping,
 			int headerRow) {
 		this.columnMapping = columnMapping;
 		this.propertyAccessor = propertyAccessor;
@@ -92,14 +90,11 @@ public class BeanReaderRowMapper<T> implements ReaderRowMapper<T> {
 	 *            A map from column names to properties
 	 */
 	public BeanReaderRowMapper(Class<T> type, Map<String, String> columns) {
-		this(type, new JoddPropertyAccessor<T>(), new HeaderColumnNameMapping(
-				columns));
+		this(type, new JoddPropertyAccessor<T>(), new HeaderColumnNameMapping(columns));
 	}
 
-	public BeanReaderRowMapper(Class<T> type, String[] properties,
-			String[] header) {
-		this(type, new JoddPropertyAccessor<T>(), new HeaderColumnNameMapping(
-				properties, header));
+	public BeanReaderRowMapper(Class<T> type, String[] properties, String[] header) {
+		this(type, new JoddPropertyAccessor<T>(), new HeaderColumnNameMapping(properties, header));
 	}
 
 	/**
@@ -109,8 +104,7 @@ public class BeanReaderRowMapper<T> implements ReaderRowMapper<T> {
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
-	public T getRow(String[] row, int rowNumber)
-			throws BeanIntrospectorException {
+	public T getRow(String[] row, int rowNumber) throws BeanIntrospectorException {
 		if (rowNumber == headerRow) {
 			if (columnMapping.requiresHeaderRow()) {
 				columnMapping.setHeaderRow(row);
@@ -163,7 +157,7 @@ public class BeanReaderRowMapper<T> implements ReaderRowMapper<T> {
 	}
 
 	@SuppressWarnings("rawtypes")
-    public void registerConverter(String property, DataConverter converter) {
+	public void registerConverter(String property, DataConverter converter) {
 		converters.put(property, converter);
 	}
 }
