@@ -30,7 +30,7 @@ public class HeaderColumnNameMapping implements ColumnMapping {
     protected String[] header;
     protected Map<String, String> columnMapping = null;
     
-    private boolean trimWhiteSpace = false;
+    private boolean trimWhiteSpace = true;
     private boolean convertToLowerCase = false;
     
     /**

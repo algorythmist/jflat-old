@@ -22,67 +22,82 @@ import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 
+import com.tecacet.jflat.om.Customer;
 import com.tecacet.jflat.om.Order;
 import com.tecacet.util.conversion.DataConverter;
 
 public class BeanReaderRowMapperTest {
 
-    @Test
-    public void testGetSimpleRow() {
+	@Test
+	public void testGetRow() {
 
-        BeanReaderRowMapper<Order> mapper = new BeanReaderRowMapper<Order>(Order.class, new String[] { "number",
-                "price", "quantity" }, new String[] { "Number", "Price", "Quantity" });
-        // First row gets the header
-        Order order = mapper.getRow(new String[] { "Number", "Price", "Quantity" }, 1);
-        assertNull(order);
-        String[] row = new String[] { "911", "12.5", "100" };
-        order = mapper.getRow(row, 2);
-        assertEquals(100, order.getQuantity());
-        assertEquals("911", order.getNumber());
-        assertEquals(12.5, order.getPrice(), 0.0001);
-        assertNull(order.getCustomer());
+		ReaderRowMapper<Customer> rowMapper = new BeanReaderRowMapper<Customer>(Customer.class,
+				new String[] { "firstName", "lastName", "identifier" });
+		String[] row = { "John", "Doh", "123" };
+		Customer customer = rowMapper.getRow(row, 1);
+		assertEquals(123, customer.getIdentifier());
+		assertEquals("John", customer.getFirstName());
+		assertEquals("Doh", customer.getLastName());
+	}
 
-    }
+	@Test
+	public void testGetSimpleRow() {
 
-    @Test
-    public void testGetNestetRow() {
-        BeanReaderRowMapper<Order> mapper = new BeanReaderRowMapper<Order>(Order.class, new String[] { "number",
-                "price", "quantity", "customer.name" }, new String[] { "Number", "Price", "Quantity", "Customer" });
+		BeanReaderRowMapper<Order> mapper = new BeanReaderRowMapper<Order>(Order.class,
+				new String[] { "number", "price", "quantity" }, new String[] { "Number", "Price", "Quantity" });
+		// First row gets the header
+		Order order = mapper.getRow(new String[] { "Number", "Price", "Quantity" }, 1);
+		assertNull(order);
+		String[] row = new String[] { "911", "12.5", "100" };
+		order = mapper.getRow(row, 2);
+		assertEquals(100, order.getQuantity());
+		assertEquals("911", order.getNumber());
+		assertEquals(12.5, order.getPrice(), 0.0001);
+		assertNull(order.getCustomer());
 
-        // First row gets the header
-        Order order = mapper.getRow(new String[] { "Number", "Price", "Quantity", "Customer" }, 1);
-        assertNull(order);
-        String[] row = new String[] { "911", "12.5", "100", "Jack" };
-        order = mapper.getRow(row, 2);
-        assertEquals(100, order.getQuantity());
-        assertEquals("911", order.getNumber());
-        assertEquals(12.5, order.getPrice(), 0.0001);
-        assertNotNull(order.getCustomer());
-    }
+	}
 
-    @Test
-    public void testConverter() {
-        BeanReaderRowMapper<Order> mapper = new BeanReaderRowMapper<Order>(Order.class, new String[] { "number",
-                "price", "quantity", "customer.name" }, new String[] { "Number", "Price", "Quantity", "Customer" });
-        
-        mapper.registerConverter("price", new DataConverter<String, Double>() {
+	@Test
+	public void testGetNestetRow() {
+		BeanReaderRowMapper<Order> mapper = new BeanReaderRowMapper<Order>(Order.class,
+				new String[] { "number", "price", "quantity", "customer.name" },
+				new String[] { "Number", "Price", "Quantity", "Customer" });
 
-            @Override
-            public Double convert(String value) {
-                value = value.substring(value.indexOf("$") + 1);
-                return Double.parseDouble(value);
-            }
-        });
+		// First row gets the header
+		Order order = mapper.getRow(new String[] { "Number", "Price", "Quantity", "Customer" }, 1);
+		assertNull(order);
+		String[] row = new String[] { "911", "12.5", "100", "Jack" };
+		order = mapper.getRow(row, 2);
+		assertEquals(100, order.getQuantity());
+		assertEquals("911", order.getNumber());
+		assertEquals(12.5, order.getPrice(), 0.0001);
+		assertNotNull(order.getCustomer());
+	}
 
-        // First row gets the header
-        Order order = mapper.getRow(new String[] { "Number", "Price", "Quantity", "Customer" }, 1);
-        assertNull(order);
-        String[] row = new String[] { "911", "$12.5", "100", "Jack" };
-        order = mapper.getRow(row, 2);
-        assertEquals(100, order.getQuantity());
-        assertEquals("911", order.getNumber());
-        assertEquals(12.5, order.getPrice(), 0.0001);
-        assertNotNull(order.getCustomer());
-    }
+	@Test
+	public void testConverter() {
+		BeanReaderRowMapper<Order> mapper = new BeanReaderRowMapper<Order>(Order.class,
+				new String[] { "number", "price", "quantity", "customer.name" },
+				new String[] { "Number", "Price", "Quantity", "Customer" });
+
+		mapper.registerConverter("price", new DataConverter<String, Double>() {
+
+			@Override
+			public Double convert(String value) {
+				value = value.substring(value.indexOf("$") + 1);
+				return Double.parseDouble(value);
+			}
+		});
+
+		// First row gets the header
+		Order order = mapper.getRow(new String[] { "Number", "Price", "Quantity", "Customer" }, 1);
+		assertNull(order);
+		String[] row = new String[] { "911", "$12.5", "100", "Jack" };
+		order = mapper.getRow(row, 2);
+		assertEquals(100, order.getQuantity());
+		assertEquals("911", order.getNumber());
+		assertEquals(12.5, order.getPrice(), 0.0001);
+		assertNotNull(order.getCustomer());
+	}
 
 }

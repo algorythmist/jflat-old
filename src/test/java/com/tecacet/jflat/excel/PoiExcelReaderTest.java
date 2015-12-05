@@ -24,21 +24,19 @@ public class PoiExcelReaderTest {
 	}
 
 	@Test
-	public void testReadOldExcel() throws  IOException {
+	public void testReadOldExcel() throws IOException {
 		readAll("testdata/prices.xls");
-		
+
 	}
-	
+
 	private void readAll(String filename) throws IOException {
-		ReaderRowMapper<StockPrice> rowMapper = new BeanReaderRowMapper<StockPrice>(
-				StockPrice.class, new String[] { "date", "openPrice",
-						"closePrice", "volume" }, new String[] { "Date",
-						"Open", "Close", "Volume" });
+		ReaderRowMapper<StockPrice> rowMapper = new BeanReaderRowMapper<StockPrice>(StockPrice.class,
+				new String[] { "date", "openPrice", "closePrice", "volume" },
+				new String[] { "Date", "Open", "Close", "Volume" });
 		DateConverter dateConverter = new DateConverter(null);
 		dateConverter.setPattern("yyyy-MM-dd");
 		ConvertUtils.register(dateConverter, Date.class);
-		ExcelReader<StockPrice> reader = new PoiExcelReader<StockPrice>(
-				filename, rowMapper);
+		ExcelReader<StockPrice> reader = new PoiExcelReader<StockPrice>(filename, rowMapper);
 		// read all the prices
 		List<StockPrice> prices = reader.readAll();
 		assertEquals(253, prices.size());
@@ -46,13 +44,12 @@ public class PoiExcelReaderTest {
 		assertEquals(1550.87, price.getOpenPrice(), 0.0001);
 		assertEquals(1577.03, price.getClosePrice(), 2);
 		assertEquals(1521220000, price.getVolume());
-		
+
 		reader.readWithCallback(new FlatFileReaderCallback<StockPrice>() {
 
 			@Override
-			public void processRow(int rowIndex, String[] tokens,
-					StockPrice bean) {
-				System.out.println(bean);
+			public void processRow(int rowIndex, String[] tokens, StockPrice bean) {
+
 			}
 		});
 	}

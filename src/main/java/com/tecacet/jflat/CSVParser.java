@@ -57,7 +57,7 @@ public class CSVParser implements LineParser {
 		}
 
 		List<String> tokens = new ArrayList<String>();
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		boolean inQuotes = false;
 		do {
 			if (inQuotes) {
@@ -107,7 +107,7 @@ public class CSVParser implements LineParser {
 					tokens.add(sb.length() > 0 ? sb.toString() : null);
 
 					// start work on next token, if there is one
-					sb = new StringBuffer();
+					sb = new StringBuilder();
 				} else {
 					sb.append(c);
 				}

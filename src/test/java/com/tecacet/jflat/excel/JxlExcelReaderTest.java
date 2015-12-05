@@ -19,15 +19,13 @@ public class JxlExcelReaderTest {
 
 	@Test
 	public void testReadAll() throws IOException {
-		ReaderRowMapper<StockPrice> rowMapper = new BeanReaderRowMapper<StockPrice>(
-				StockPrice.class, new String[] { "date", "openPrice",
-						"closePrice", "volume" }, new String[] { "Date",
-						"Open", "Close", "Volume" });
+		ReaderRowMapper<StockPrice> rowMapper = new BeanReaderRowMapper<StockPrice>(StockPrice.class,
+				new String[] { "date", "openPrice", "closePrice", "volume" },
+				new String[] { "Date", "Open", "Close", "Volume" });
 		DateConverter dateConverter = new DateConverter(null);
 		dateConverter.setPattern("yyyy-MM-dd");
 		ConvertUtils.register(dateConverter, Date.class);
-		ExcelReader<StockPrice> reader = new JxlExcelReader<StockPrice>(
-				"testdata/prices.xls", rowMapper);
+		ExcelReader<StockPrice> reader = new JxlExcelReader<StockPrice>("testdata/prices.xls", rowMapper);
 		// read all the prices
 		List<StockPrice> prices = reader.readAll();
 		assertEquals(253, prices.size());
@@ -39,9 +37,8 @@ public class JxlExcelReaderTest {
 		reader.readWithCallback(new FlatFileReaderCallback<StockPrice>() {
 
 			@Override
-			public void processRow(int rowIndex, String[] tokens,
-					StockPrice bean) {
-				System.out.println(bean);
+			public void processRow(int rowIndex, String[] tokens, StockPrice bean) {
+
 			}
 		});
 	}

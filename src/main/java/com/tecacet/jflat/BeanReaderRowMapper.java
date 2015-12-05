@@ -80,6 +80,10 @@ public class BeanReaderRowMapper<T> implements ReaderRowMapper<T> {
 	public BeanReaderRowMapper(Class<T> type, ColumnMapping columnMapping) {
 		this(type, new JoddPropertyAccessor<T>(), columnMapping);
 	}
+	
+	public BeanReaderRowMapper(Class<T> type, String[] properties) {
+		this(type, new JoddPropertyAccessor<T>(), new ColumnPositionMapping(properties));
+	}
 
 	/**
 	 * Construct a rowMapper using a the default BeanManipulator The mapping

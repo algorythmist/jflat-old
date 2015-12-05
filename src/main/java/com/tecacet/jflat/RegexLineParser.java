@@ -27,10 +27,15 @@ import java.util.regex.Pattern;
 public class RegexLineParser implements LineParser {
 
     private Pattern pattern;
-    private int limit = 0;
+    private int limit;
 
     public RegexLineParser(String regex) {
-        pattern = Pattern.compile(regex);
+        this(regex,0);
+    }
+    
+    public RegexLineParser(String regex, int limit) {
+        this.pattern = Pattern.compile(regex);
+        this.limit = limit;
     }
 
     public String[] parseLine(String line) throws IOException {

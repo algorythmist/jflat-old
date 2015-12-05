@@ -1,6 +1,6 @@
 package com.tecacet.jflat;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.io.File;
 import java.io.FileReader;
@@ -8,6 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
+import org.joda.time.LocalDate;
 import org.junit.Test;
 
 import com.tecacet.jflat.om.StockPrice;
@@ -17,8 +18,8 @@ public class StockPriceReaderTest {
     @Test
     public void testSimpleRead() throws IOException, LineMergerException {
         
-        // construct a bean row mapper for the LehmnaPrice object using the map
-        ReaderRowMapper<StockPrice> rowMapper = new BeanReaderRowMapper<StockPrice>(StockPrice.class, new String[] {
+        ReaderRowMapper<StockPrice> rowMapper = 
+        		new BeanReaderRowMapper<StockPrice>(StockPrice.class, new String[] {
                 "date", "openPrice", "closePrice", "volume" }, new String[] { "Date", "Open", "Close", "Volume" });
 
         // create a normal file reader
@@ -33,8 +34,8 @@ public class StockPriceReaderTest {
         assertEquals(1550.87, price.getOpenPrice(), 0.0001);
         assertEquals(1577.03, price.getClosePrice(), 2);
         assertEquals(1521220000, price.getVolume());
-        //TODO Date formatting is deployment-specific
-        //assertEquals("Wed Dec 31 00:00:00 PST 2008", price.getDate().toString());
+        LocalDate localDate = new LocalDate( price.getDate());
+        assertEquals("2008-12-31",localDate.toString());
 
         FileWriter fw = new FileWriter("test.out");
         String[] properties = new String[] { "volume", "averagePrice", "date" };
@@ -56,7 +57,9 @@ public class StockPriceReaderTest {
 
         assertEquals(1521220000, price.getVolume());
 
-        new File("test.out").delete();
+        File result = new File("test.out");
+        assertTrue(result.exists());
+        result.delete();
 
     }
 }
