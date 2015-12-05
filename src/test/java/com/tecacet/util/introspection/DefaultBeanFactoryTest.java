@@ -17,7 +17,7 @@ package com.tecacet.util.introspection;
 
 import static org.junit.Assert.assertNotNull;
 
-import java.time.LocalDate;
+import java.util.Currency;
 
 import org.junit.Test;
 
@@ -43,7 +43,7 @@ public class DefaultBeanFactoryTest {
 	@Test(expected=BeanCreationException.class)
 	public void testNoDefaultConstructor() {
 		BeanFactory beanFactory = new DefaultBeanFactory();
-		beanFactory.createBean(LocalDate.class);
+		beanFactory.createBean(Currency.class);
 	}
 
 
