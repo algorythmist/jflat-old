@@ -18,7 +18,7 @@ package com.tecacet.jflat;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
 
@@ -47,7 +47,7 @@ public class FlatFileReaderTest {
 			}
 
 		};
-		FileReader reader = new FileReader("testdata/ffwheaderAndFooter.txt");
+		FileInputStream reader = new FileInputStream("testdata/ffwheaderAndFooter.txt");
 		TabularDataReader<String[]> flatReader = new FlatFileReader<String[]>(lineParser, mapper);
 		List<String[]> lines = flatReader.readAll(reader);
 		assertEquals(2, lines.size());

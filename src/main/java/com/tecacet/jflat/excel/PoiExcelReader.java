@@ -15,7 +15,7 @@
  */
 package com.tecacet.jflat.excel;
 
-import java.io.FileInputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.DecimalFormat;
@@ -31,29 +31,21 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
-import com.tecacet.jflat.TabularDataReaderCallback;
+import com.tecacet.jflat.AbstractTabularDataReader;
+import com.tecacet.jflat.BeanReaderRowMapper;
 import com.tecacet.jflat.ReaderRowMapper;
+import com.tecacet.jflat.TabularDataReaderCallback;
 
-public class PoiExcelReader<T> extends ExcelReader<T> {
-
-	protected Workbook workbook = null;
-	protected Sheet currentSheet = null;
-
-	private final InputStream is;
+public class PoiExcelReader<T> extends AbstractTabularDataReader<T> {
 
 	private NumberFormat numberFormat = new DecimalFormat("#.#####");
+
+	public PoiExcelReader(ReaderRowMapper<T> mapper) throws IOException {
+		super(mapper);
+	}
 	
-	public PoiExcelReader(String filename, ReaderRowMapper<T> mapper) throws IOException {
-		is = new FileInputStream(filename);
-		Workbook wb;
-		try {
-			wb = WorkbookFactory.create(is);
-		} catch (InvalidFormatException e) {
-			throw new IOException(e);
-		}
-		currentSheet = wb.getSheetAt(0);
-		this.rowMapper = mapper;
-		this.skipLines = DEFAULT_SKIP_LINES;
+	public PoiExcelReader(Class<T> type, String[] properties, String[] columns) {
+		super(new BeanReaderRowMapper<>(type, properties, columns));
 	}
 
 	/**
@@ -62,8 +54,17 @@ public class PoiExcelReader<T> extends ExcelReader<T> {
 	 * @param callback
 	 * @throws IOException
 	 */
-	public void readWithCallback(TabularDataReaderCallback<T> callback) {
+	@Override
+	public void readWithCallback(InputStream is, TabularDataReaderCallback<T> callback) throws IOException {
+		Workbook wb;
+		try {
+			wb = WorkbookFactory.create(is);
+		} catch (InvalidFormatException e) {
+			throw new IOException(e);
+		}
+		Sheet currentSheet = wb.getSheetAt(0);
 		readSheet(currentSheet, callback);
+
 	}
 
 	protected void readSheet(Sheet sheet, TabularDataReaderCallback<T> callback) {
@@ -89,15 +90,6 @@ public class PoiExcelReader<T> extends ExcelReader<T> {
 			tokens.add(cellValue);
 		}
 		return tokens.toArray(new String[tokens.size()]);
-	}
-
-	/**
-	 * Clean up resources
-	 * 
-	 * @throws IOException
-	 */
-	public void close() throws IOException {
-		is.close();
 	}
 
 	// TODO toString conversions should respect registered converters
@@ -129,5 +121,12 @@ public class PoiExcelReader<T> extends ExcelReader<T> {
 
 		}
 	}
+
+	@Override
+	protected void readWithCallback(BufferedReader br, TabularDataReaderCallback<T> callback) throws IOException {
+		throw new UnsupportedOperationException();
+	}
+
+
 
 }

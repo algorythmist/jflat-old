@@ -38,7 +38,7 @@ public class CSVReader<T> extends AbstractTabularDataReader<T> {
 	}
 
 	public CSVReader(Class<T> type, String[] properties, String[] columns) {
-		this(new BeanReaderRowMapper<>(type, properties, columns));
+		super(new BeanReaderRowMapper<>(type, properties, columns));
 	}
 
 	public void setSeparator(char separator) {
@@ -75,5 +75,7 @@ public class CSVReader<T> extends AbstractTabularDataReader<T> {
 		}
 		return lineParser.parseLine(line);
 	}
+
+	
 
 }

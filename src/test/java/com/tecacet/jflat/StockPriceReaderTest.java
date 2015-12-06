@@ -1,9 +1,10 @@
 package com.tecacet.jflat;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
@@ -23,7 +24,7 @@ public class StockPriceReaderTest {
                 "date", "openPrice", "closePrice", "volume" }, new String[] { "Date", "Open", "Close", "Volume" });
 
         // create a normal file reader
-        FileReader fr = new FileReader("testdata/prices.csv");
+        FileInputStream fr = new FileInputStream("testdata/prices.csv");
         // finally a CSV reader
         CSVReader<StockPrice> csvReader = new CSVReader<StockPrice>(rowMapper);
 
@@ -46,7 +47,7 @@ public class StockPriceReaderTest {
         csvWriter.close();
 
         // create a normal file reader
-        fr = new FileReader("test.out");
+        fr = new FileInputStream("test.out");
         // finally a CSV reader
         rowMapper = new BeanReaderRowMapper<StockPrice>(StockPrice.class, properties, header);
         csvReader = new CSVReader<StockPrice>(rowMapper);

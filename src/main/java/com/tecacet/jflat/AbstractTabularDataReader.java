@@ -20,27 +20,24 @@ public abstract class AbstractTabularDataReader<T> implements TabularDataReader<
 		super();
 		this.rowMapper = rowMapper;
 	}
-
-	@Override
-	public List<T> readAll(Reader reader) throws IOException {
-		BufferedReader br = new BufferedReader(reader);
-		try {
-			return readAll(br);
-		} finally {
-			br.close();
-		}
+	
+	protected AbstractTabularDataReader(Class<T> type, String[] properties, String[] columns) {
+		this(new BeanReaderRowMapper<>(type, properties, columns));
 	}
-
+	
 	@Override
 	public List<T> readAll(InputStream is) throws IOException {
-		InputStreamReader isr = new InputStreamReader(is);
-		BufferedReader br = new BufferedReader(isr);
-		try {
-			return readAll(br);
-		} finally {
-			isr.close();
-			br.close();
-		}
+		final List<T> beans = new ArrayList<>();
+		readWithCallback(is, new TabularDataReaderCallback<T>() {
+			@Override
+			public void processRow(int rowIndex, String[] tokens, T bean) {
+				if (bean != null) {
+					beans.add(bean);
+				}
+			}
+		});
+
+		return beans;
 	}
 
 	@Override
@@ -54,21 +51,27 @@ public abstract class AbstractTabularDataReader<T> implements TabularDataReader<
 			br.close();
 		}
 	}
-
-	protected List<T> readAll(BufferedReader br) throws IOException {
+	
+	public List<T> readAll(Reader reader) throws IOException {
+		BufferedReader br = new BufferedReader(reader);
 		final List<T> beans = new ArrayList<>();
-		readWithCallback(br, new TabularDataReaderCallback<T>() {
-			@Override
-			public void processRow(int rowIndex, String[] tokens, T bean) {
-				if (bean != null) {
-					beans.add(bean);
+		try {
+			readWithCallback(br, new TabularDataReaderCallback<T>() {
+				@Override
+				public void processRow(int rowIndex, String[] tokens, T bean) {
+					if (bean != null) {
+						beans.add(bean);
+					}
 				}
-			}
-		});
+			});
 
-		return beans;
+			return beans;
+		} finally {
+			br.close();
+		}
+		
 	}
-
+	
 	protected abstract void readWithCallback(BufferedReader br, TabularDataReaderCallback<T> callback) throws IOException;
 
 	public int getSkipLines() {

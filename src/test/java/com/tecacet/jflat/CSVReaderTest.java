@@ -18,7 +18,7 @@ package com.tecacet.jflat;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +38,7 @@ public class CSVReaderTest {
 		ReaderRowMapper<Contact> rowMapper = new BeanReaderRowMapper<Contact>(Contact.class, mappingStrategy);
 		CSVReader<Contact> csvReader = new CSVReader<Contact>(rowMapper);
 		csvReader.setSkipLines(1);
-		FileReader reader = new FileReader("testdata/contacts.csv");
+		FileInputStream reader = new FileInputStream("testdata/contacts.csv");
 		List<Contact> contacts = csvReader.readAll(reader);
 		Contact c = contacts.get(1);
 		assertEquals("Cohen", c.getLastName());
@@ -51,7 +51,7 @@ public class CSVReaderTest {
 		map.put("Last Name", "lastName");
 		ColumnMapping mappingStrategy = new HeaderColumnNameMapping(map);
 		ReaderRowMapper<Contact> rowMapper = new BeanReaderRowMapper<Contact>(Contact.class, mappingStrategy);
-		FileReader reader = new FileReader("testdata/contacts.csv");
+		FileInputStream reader = new FileInputStream("testdata/contacts.csv");
 		CSVReader<Contact> csvReader = new CSVReader<Contact>(rowMapper);
 		List<Contact> contacts = csvReader.readAll(reader);
 		Contact c = contacts.get(1);
@@ -63,7 +63,7 @@ public class CSVReaderTest {
 		
 		CSVReader<Contact> csvReader = new CSVReader<Contact>(Contact.class,
 				new String[] { "firstName", "lastName" }, new String[] { "First Name", "Last Name" });
-		FileReader reader = new FileReader("testdata/contacts.csv");
+		FileInputStream reader = new FileInputStream("testdata/contacts.csv");
 		List<Contact> contacts = csvReader.readAll(reader);
 		Contact c = contacts.get(1);
 		assertEquals("Cohen", c.getLastName());

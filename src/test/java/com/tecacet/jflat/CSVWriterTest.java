@@ -16,10 +16,10 @@
 
 package com.tecacet.jflat;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
@@ -42,7 +42,7 @@ public class CSVWriterTest {
         w.close();
         
         CSVReader<String[]> reader = new DefaultCSVReader();
-        List<String[]> all = reader.readAll(new FileReader("test.csv"));
+        List<String[]> all = reader.readAll(new FileInputStream("test.csv"));
         assertEquals(2,all.size());
         
         new File("test.csv").delete();
@@ -61,7 +61,7 @@ public class CSVWriterTest {
         w.close();
         
         CSVReader<String[]> reader = new DefaultCSVReader();
-        List<String[]> all = reader.readAll(new FileReader("test.csv"));
+        List<String[]> all = reader.readAll(new FileInputStream("test.csv"));
         assertEquals(3,all.size());
         
         new File("test.csv").delete();

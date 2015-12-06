@@ -17,14 +17,13 @@ package com.tecacet.jflat.excel;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
 
 import org.junit.Test;
 
-import com.tecacet.jflat.BeanReaderRowMapper;
 import com.tecacet.jflat.TabularDataReaderCallback;
-import com.tecacet.jflat.ReaderRowMapper;
 import com.tecacet.jflat.om.StockPrice;
 
 public class PoiExcelReaderTest {
@@ -40,19 +39,21 @@ public class PoiExcelReaderTest {
 	}
 
 	private void readAll(String filename) throws IOException {
-		ReaderRowMapper<StockPrice> rowMapper = new BeanReaderRowMapper<StockPrice>(StockPrice.class,
+		
+		PoiExcelReader<StockPrice> reader = new PoiExcelReader<StockPrice>(StockPrice.class,
 				new String[] { "date", "openPrice", "closePrice", "volume" },
 				new String[] { "Date", "Open", "Close", "Volume" });
-		ExcelReader<StockPrice> reader = new PoiExcelReader<StockPrice>(filename, rowMapper);
 		// read all the prices
-		List<StockPrice> prices = reader.readAll();
+		FileInputStream fis = new FileInputStream(filename);
+		List<StockPrice> prices = reader.readAll(fis);
 		assertEquals(253, prices.size());
 		StockPrice price = prices.get(0);
 		assertEquals(1550.87, price.getOpenPrice(), 0.0001);
 		assertEquals(1577.03, price.getClosePrice(), 2);
 		assertEquals(1521220000, price.getVolume());
 
-		reader.readWithCallback(new TabularDataReaderCallback<StockPrice>() {
+		fis = new FileInputStream(filename);
+		reader.readWithCallback(fis, new TabularDataReaderCallback<StockPrice>() {
 
 			@Override
 			public void processRow(int rowIndex, String[] tokens, StockPrice bean) {
