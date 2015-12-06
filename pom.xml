@@ -57,10 +57,11 @@
 		<jdepend-plugin.version>2.0</jdepend-plugin.version>
 		<cobertura-plugin.version>2.7</cobertura-plugin.version>
 		<maven.javadoc.failOnError>false</maven.javadoc.failOnError>
-		<poi.version>3.10.1</poi.version>
-		<jexcel.version>2.6.12</jexcel.version>
+
 		<jodd.version>3.6.7</jodd.version>
 		<joda-time.version>2.8</joda-time.version>
+		<poi.version>3.10.1</poi.version>
+		<jexcel.version>2.6.12</jexcel.version>
 		<slf4j.version>1.7.13</slf4j.version>
 		<junit.version>4.12</junit.version>
 	</properties>

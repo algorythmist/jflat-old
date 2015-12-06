@@ -1,0 +1,10 @@
+- New interfaces with stream/reader as param
+- read excel
+- write excel
+- jacoco coverage
+- validate properties at construction time - fail fast
+- parse phone numbers
+- create readers via factories
+- Add copyright to all files
+- map multiple fields to a single property (reader)
+- map multiple properties to single field (writer)
