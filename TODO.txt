@@ -6,3 +6,5 @@
 - Add copyright to all files
 - map multiple fields to a single property (reader)
 - map multiple properties to single field (writer)
+- figure out proper types
+

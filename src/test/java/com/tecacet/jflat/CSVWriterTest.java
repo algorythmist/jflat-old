@@ -41,8 +41,8 @@ public class CSVWriterTest {
         writer.close();
         w.close();
         
-        CSVReader<String[]> reader = new DefaultCSVReader(new FileReader("test.csv"));
-        List<String[]> all = reader.readAll();
+        CSVReader<String[]> reader = new DefaultCSVReader();
+        List<String[]> all = reader.readAll(new FileReader("test.csv"));
         assertEquals(2,all.size());
         
         new File("test.csv").delete();
@@ -60,8 +60,8 @@ public class CSVWriterTest {
         writer.close();
         w.close();
         
-        CSVReader<String[]> reader = new DefaultCSVReader(new FileReader("test.csv"));
-        List<String[]> all = reader.readAll();
+        CSVReader<String[]> reader = new DefaultCSVReader();
+        List<String[]> all = reader.readAll(new FileReader("test.csv"));
         assertEquals(3,all.size());
         
         new File("test.csv").delete();

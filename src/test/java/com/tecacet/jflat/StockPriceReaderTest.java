@@ -25,10 +25,10 @@ public class StockPriceReaderTest {
         // create a normal file reader
         FileReader fr = new FileReader("testdata/prices.csv");
         // finally a CSV reader
-        CSVReader<StockPrice> csvReader = new CSVReader<StockPrice>(fr, rowMapper);
+        CSVReader<StockPrice> csvReader = new CSVReader<StockPrice>(rowMapper);
 
         // read all the prices
-        List<StockPrice> prices = csvReader.readAll();
+        List<StockPrice> prices = csvReader.readAll(fr);
         assertEquals(253, prices.size());
         StockPrice price = prices.get(0);
         assertEquals(1550.87, price.getOpenPrice(), 0.0001);
@@ -49,9 +49,9 @@ public class StockPriceReaderTest {
         fr = new FileReader("test.out");
         // finally a CSV reader
         rowMapper = new BeanReaderRowMapper<StockPrice>(StockPrice.class, properties, header);
-        csvReader = new CSVReader<StockPrice>(fr, rowMapper);
+        csvReader = new CSVReader<StockPrice>(rowMapper);
 
-        prices = csvReader.readAll();
+        prices = csvReader.readAll(fr);
         assertEquals(253, prices.size());
         price = prices.get(0);
 

@@ -15,7 +15,8 @@
  */
 package com.tecacet.jflat;
 
-import java.io.Reader;
+import java.io.BufferedReader;
+import java.io.IOException;
 
 /**
  * A reader for CSV files
@@ -24,31 +25,51 @@ import java.io.Reader;
  * 
  * @param <T>
  */
-public class CSVReader<T> extends FlatFileReader<T> {
+public class CSVReader<T> extends AbstractReader<T> {
 
-	public CSVReader(Reader reader, Class<T> type, String[] columns) {
-		this(reader, new BeanReaderRowMapper<T>(type, new ColumnPositionMapping(columns)));
+	private static final char DEFAULT_QUOTE = '"';
+	private static final char DEFAULT_DELIMITER = ',';
+	
+	private char quote = DEFAULT_QUOTE;
+	private char delimiter = DEFAULT_DELIMITER;
+	
+	public CSVReader(ReaderRowMapper<T> mapper) {
+		super(mapper);
+	}
+
+	public void setSeparator(char separator) {
+		this.delimiter = separator;
+	}
+
+	public void setQuotechar(char quotechar) {
+		this.quote = quotechar;
+	}
+
+	@Override
+	protected void readWithCallback(BufferedReader br, FlatFileReaderCallback<T> callback) throws IOException {
+		LineIterator lineIterator = new BufferedReaderLineIterator(br);
+		CSVParser lineParser = new CSVParser(lineIterator);
+		lineParser.setQuotechar(quote);
+		lineParser.setSeparator(delimiter);
+		for (int i = 0; i < skipLines; i++) {
+			lineIterator.getNextLine();
+		}
+		int row = 0;
+		String[] nextLineAsTokens = readNext(lineIterator, lineParser);
+		while (nextLineAsTokens != null) {
+			
+			T bean = rowMapper.getRow(nextLineAsTokens, ++row);
+			callback.processRow(row, nextLineAsTokens, bean);
+			nextLineAsTokens = readNext(lineIterator, lineParser);
+		}
 	}
 	
-    public CSVReader(Reader reader, ReaderRowMapper<T> mapper) {
-        super(reader, mapper);
-        lineParser = new CSVParser(lineIterator);
-    }
-
-    public char getSeparator() {
-        return ((CSVParser) lineParser).getSeparator();
-    }
-
-    public void setSeparator(char separator) {
-        ((CSVParser) lineParser).setSeparator(separator);
-    }
-
-    public char getQuotechar() {
-        return ((CSVParser) lineParser).getQuotechar();
-    }
-
-    public void setQuotechar(char quotechar) {
-        ((CSVParser) lineParser).setQuotechar(quotechar);
-    }
+	private String[] readNext(LineIterator lineIterator, LineParser lineParser) throws IOException {
+		String line = lineIterator.getNextLine();
+		if (line == null) {
+			return null;
+		}
+		return lineParser.parseLine(line);
+	}
 
 }

@@ -15,8 +15,6 @@
  */
 package com.tecacet.jflat;
 
-import java.io.Reader;
-
 /**
  * A CSVReader that reads each line as a String array.
  * 
@@ -25,9 +23,8 @@ import java.io.Reader;
  */
 public class DefaultCSVReader extends CSVReader<String[]> {
 
-    @SuppressWarnings("unchecked")
-    public DefaultCSVReader(Reader reader) {
-        super(reader, new DefaultRowMapper());
+    public DefaultCSVReader() {
+        super(new DefaultRowMapper());
     }
 
 }

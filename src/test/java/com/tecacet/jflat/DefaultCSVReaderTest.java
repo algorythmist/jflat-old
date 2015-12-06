@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.Reader;
 import java.io.StringReader;
 import java.util.List;
 
@@ -17,7 +18,7 @@ import com.tecacet.jflat.conversion.jodd.JoddConverterRegistry;
 
 public class DefaultCSVReaderTest {
 
-    CSVReader<String[]> csvReader;
+	Reader reader;
 
     /**
      * Setup the test.
@@ -36,7 +37,7 @@ public class DefaultCSVReaderTest {
         sb.append("\"\"\"\"\"\",\"test\"\n"); // """""","test" representing:
         // "", test
         sb.append("\"a\nb\",b,\"\nd\",e\n");
-        csvReader = new DefaultCSVReader(new StringReader(sb.toString()));
+        reader = new StringReader(sb.toString());
     }
 
     /**
@@ -47,64 +48,54 @@ public class DefaultCSVReaderTest {
      */
     @Test
     public void testParseLine() throws IOException {
-
+    	CSVReader<String[]> csvReader = new DefaultCSVReader();
+    	List<String[]> lines = csvReader.readAll(reader);
         // test normal case
-        String[] nextLine = csvReader.readNext();
+        String[] nextLine = lines.get(0);
         assertEquals("a", nextLine[0]);
         assertEquals("b", nextLine[1]);
         assertEquals("c", nextLine[2]);
 
         // test quoted commas
-        nextLine = csvReader.readNext();
+        nextLine = lines.get(1);
         assertEquals("a", nextLine[0]);
         assertEquals("b,b,b", nextLine[1]);
         assertEquals("c", nextLine[2]);
 
         // test empty elements
-        nextLine = csvReader.readNext();
+        nextLine = lines.get(2);
         assertEquals(3, nextLine.length);
         assertNull(nextLine[0]);
         assertNull(nextLine[1]);
         assertNull(nextLine[2]);
         
         // test multiline quoted
-        nextLine = csvReader.readNext();
+        nextLine = lines.get(3);
         assertEquals(3, nextLine.length);
         assertEquals("a", nextLine[0]);
         assertEquals("PO Box 123,\nKippax,ACT. 2615.\nAustralia", nextLine[1]);
         assertEquals("d.", nextLine[2]);
 
         // test quoted quote chars
-        nextLine = csvReader.readNext();
+        nextLine = lines.get(4);
         assertEquals("Glen \"The Man\" Smith", nextLine[0]);
 
-        nextLine = csvReader.readNext();
+        nextLine = lines.get(5);
         assertTrue(nextLine[0].equals("\"\"")); // check the tricky situation
         assertTrue(nextLine[1].equals("test")); // make sure we didn't ruin the
         // next field..
 
-        nextLine = csvReader.readNext();
+        nextLine = lines.get(6);
         assertEquals(4, nextLine.length);
         assertEquals("a\nb", nextLine[0]);
         assertEquals("b", nextLine[1]);
         assertEquals("\nd", nextLine[2]);
         assertEquals("e", nextLine[3]);
-        
-        // test end of stream
-        assertNull(csvReader.readNext());
+     
+        assertEquals(7, lines.size());
     }
 
-    /**
-     * Test parsing to a list.
-     * 
-     * @throws IOException
-     *             if the reader fails.
-     */
-    @Test
-    public void testParseAll() throws IOException {
-        List<String[]> allElements = csvReader.readAll();
-        assertEquals(7, allElements.size());
-    }
+    
 
     /**
      * Tests constructors with optional delimiters and optional quote char.
@@ -118,14 +109,15 @@ public class DefaultCSVReaderTest {
         StringBuffer sb = new StringBuffer();
         sb.append("a\tb\tc").append("\n"); // tab separated case
         sb.append("a\t'b\tb\tb'\tc").append("\n"); // single quoted elements
-        CSVReader<String[]> c = new DefaultCSVReader(new StringReader(sb.toString()));
-        c.setQuotechar('\'');
-        c.setSeparator('\t');
-
-        String[] nextLine = c.readNext();
+        CSVReader<String[]> csvReader = new DefaultCSVReader();
+        csvReader.setQuotechar('\'');
+        csvReader.setSeparator('\t');
+        
+        List<String[]> lines = csvReader.readAll(new StringReader(sb.toString()));
+        String[] nextLine = lines.get(0);
         assertEquals(3, nextLine.length);
 
-        nextLine = c.readNext();
+        nextLine = lines.get(1);
         assertEquals(3, nextLine.length);
 
     }
@@ -144,12 +136,12 @@ public class DefaultCSVReaderTest {
         // this
         sb.append("And this line too").append("\n"); // and this
         sb.append("a\t'b\tb\tb'\tc").append("\n"); // single quoted elements
-        CSVReader<String[]> reader = new DefaultCSVReader(new StringReader(sb.toString()));
+        CSVReader<String[]> reader = new DefaultCSVReader();
         reader.setQuotechar('\'');
         reader.setSeparator('\t');
         reader.setSkipLines(2);
 
-        List<String[]> lines = reader.readAll();
+        List<String[]> lines = reader.readAll(new StringReader(sb.toString()));
         String[] nextLine = lines.get(0);
         assertEquals(3, nextLine.length);
         assertEquals("a", nextLine[0]);
@@ -168,9 +160,9 @@ public class DefaultCSVReaderTest {
 
         sb.append("a,123\"4\"567,c").append("\n");// a,123"4",c
 
-        CSVReader<String[]> c = new DefaultCSVReader(new StringReader(sb.toString()));
-
-        String[] nextLine = c.readNext();
+        CSVReader<String[]> csvReader = new DefaultCSVReader();
+        List<String[]> lines = csvReader.readAll(new StringReader(sb.toString()));
+        String[] nextLine =lines.get(0);
         assertEquals(3, nextLine.length);
         assertEquals("123\"4\"567", nextLine[1]);
     }
@@ -181,7 +173,7 @@ public class DefaultCSVReaderTest {
         sb.append("a,b,c").append("\n"); // standard case
         sb.append("a,\"b,b,b\",c").append("\n"); // quoted elements
         sb.append(",,").append("\n"); // empty elements
-        CSVReader<String[]> reader = new CSVReader<String[]>(new StringReader(sb.toString()),
+        CSVReader<String[]> reader = new CSVReader<String[]>(
                 new ReaderRowMapper<String[]>() {
                     int i = 1;
 
@@ -197,15 +189,15 @@ public class DefaultCSVReaderTest {
 					}
 
                 });
-        reader.readAll();
+        reader.readAll(new StringReader(sb.toString()));
 
     }
 
     @Test
     public void testReadIntoString() throws IOException {
         FileReader fr = new FileReader("testdata/prices.csv");
-        DefaultCSVReader reader = new DefaultCSVReader(fr);
-        List<String[]> lines = reader.readAll();
+        DefaultCSVReader reader = new DefaultCSVReader();
+        List<String[]> lines = reader.readAll(fr);
         assertEquals(254, lines.size());
     }
 }

@@ -3,6 +3,7 @@ package com.tecacet.jflat;
 import java.io.IOException;
 import java.util.List;
 
+@Deprecated
 public interface StructuredFileReader<T> {
 
     /**

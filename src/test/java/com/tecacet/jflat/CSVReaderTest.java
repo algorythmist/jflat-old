@@ -36,10 +36,10 @@ public class CSVReaderTest {
         map.put(1, "lastName");
         ColumnMapping mappingStrategy = new ColumnPositionMapping(map);
         ReaderRowMapper<Contact> rowMapper = new BeanReaderRowMapper<Contact>(Contact.class, mappingStrategy);
-        FileReader reader = new FileReader("testdata/contacts.csv");
-        CSVReader<Contact> csvReader = new CSVReader<Contact>(reader, rowMapper);
+                CSVReader<Contact> csvReader = new CSVReader<Contact>(rowMapper);
         csvReader.setSkipLines(1);
-        List<Contact> contacts = csvReader.readAll();
+        FileReader reader = new FileReader("testdata/contacts.csv");
+        List<Contact> contacts = csvReader.readAll(reader);
         Contact c = contacts.get(1);
         assertEquals("Cohen",c.getLastName());
     }
@@ -52,8 +52,8 @@ public class CSVReaderTest {
         ColumnMapping mappingStrategy = new HeaderColumnNameMapping(map);
         ReaderRowMapper<Contact> rowMapper = new BeanReaderRowMapper<Contact>(Contact.class, mappingStrategy);
         FileReader reader = new FileReader("testdata/contacts.csv");
-        CSVReader<Contact> csvReader = new CSVReader<Contact>(reader, rowMapper);
-        List<Contact> contacts = csvReader.readAll();
+        CSVReader<Contact> csvReader = new CSVReader<Contact>(rowMapper);
+        List<Contact> contacts = csvReader.readAll(reader);
         Contact c = contacts.get(1);
         assertEquals("Cohen",c.getLastName());
     }
@@ -64,8 +64,8 @@ public class CSVReaderTest {
                 new String[] {"firstName", "lastName"},
                 new String[] {"First Name","Last Name"});
         FileReader reader = new FileReader("testdata/contacts.csv");
-        CSVReader<Contact> csvReader = new CSVReader<Contact>(reader, rowMapper);
-        List<Contact> contacts = csvReader.readAll();
+        CSVReader<Contact> csvReader = new CSVReader<Contact>(rowMapper);
+        List<Contact> contacts = csvReader.readAll(reader);
         Contact c = contacts.get(1);
         assertEquals("Cohen",c.getLastName());
     }

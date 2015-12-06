@@ -57,27 +57,23 @@ public class FlatFileReader<T> implements StructuredFileReader<T> {
 		this(reader, parser, new DefaultRowMapper());
 	}
 
-	public FlatFileReader(Reader reader, LineParser parser,
-			ReaderRowMapper<T> mapper) {
-		this(new BufferedReaderLineIterator(new BufferedReader(reader)),
-				parser, mapper);
+	public FlatFileReader(Reader reader, LineParser parser, ReaderRowMapper<T> mapper) {
+		this(new BufferedReaderLineIterator(new BufferedReader(reader)), parser, mapper);
 	}
 
-	public FlatFileReader(LineIterator lineIterator, LineParser parser,
-			ReaderRowMapper<T> mapper) {
+	public FlatFileReader(Reader reader, ReaderRowMapper<T> mapper) {
+		this(reader, null, mapper);
+	}
+	
+	private FlatFileReader(LineIterator lineIterator, LineParser parser, ReaderRowMapper<T> mapper) {
 		this.lineIterator = lineIterator;
 		this.lineParser = parser;
 		this.rowMapper = mapper;
 		this.skipLines = DEFAULT_SKIP_LINES;
 	}
 
-	public FlatFileReader(Reader reader, ReaderRowMapper<T> mapper) {
-		this(reader, null, mapper);
-	}
-
 	@Override
-	public void readWithCallback(FlatFileReaderCallback<T> callback)
-			throws IOException {
+	public void readWithCallback(FlatFileReaderCallback<T> callback) throws IOException {
 		for (int i = 0; i < skipLines; i++) {
 			lineIterator.getNextLine();
 		}
@@ -93,8 +89,7 @@ public class FlatFileReader<T> implements StructuredFileReader<T> {
 		}
 	}
 
-	protected void processRow(FlatFileReaderCallback<T> callback, int row,
-			String[] nextLineAsTokens, T bean) {
+	protected void processRow(FlatFileReaderCallback<T> callback, int row, String[] nextLineAsTokens, T bean) {
 		callback.processRow(row, nextLineAsTokens, bean);
 	}
 

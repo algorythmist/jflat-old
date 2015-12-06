@@ -60,7 +60,9 @@ public abstract class AbstractReader<T> implements TabularDataReader<T> {
 		readWithCallback(br, new FlatFileReaderCallback<T>() {
 			@Override
 			public void processRow(int rowIndex, String[] tokens, T bean) {
-				beans.add(bean);
+				if (bean != null) {
+					beans.add(bean);
+				}
 			}
 		});
 

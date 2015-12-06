@@ -2,7 +2,7 @@ package com.tecacet.jflat;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,9 +36,9 @@ public class FlatFileReaderCallbackTest {
 
         ReaderRowMapper<Order> rowMapper = new BeanReaderRowMapper<Order>(Order.class,
                 new String[] { "number", "price" }, new String[] { "Number", "Price" });
-        FileReader reader = new FileReader("testdata/orders.csv");
-        CSVReader<Order> csvReader = new CSVReader<Order>(reader, rowMapper);
-        csvReader.readWithCallback(callback);
+        FileInputStream reader = new FileInputStream("testdata/orders.csv");
+        CSVReader<Order> csvReader = new CSVReader<Order>(rowMapper);
+        csvReader.readWithCallback(reader, callback);
         assertEquals(2, orders.size());
 
     }
