@@ -18,9 +18,9 @@ package com.tecacet.jflat;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.tecacet.util.conversion.ToStringConverter;
-import com.tecacet.util.introspection.PropertyAccessor;
-import com.tecacet.util.introspection.jodd.JoddPropertyAccessor;
+import com.tecacet.jflat.conversion.ToStringConverter;
+import com.tecacet.jflat.introspection.PropertyAccessor;
+import com.tecacet.jflat.introspection.jodd.JoddPropertyAccessor;
 
 /**
  * Basic implementation of WriterRowMapper that uses a columnMapping to

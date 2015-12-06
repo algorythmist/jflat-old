@@ -24,11 +24,11 @@ import java.util.Map;
 
 import org.junit.Test;
 
+import com.tecacet.jflat.conversion.DateToStringConverter;
+import com.tecacet.jflat.conversion.DoubleToStringConverter;
+import com.tecacet.jflat.introspection.MapPropertyAccessor;
+import com.tecacet.jflat.introspection.PropertyAccessor;
 import com.tecacet.jflat.om.Order;
-import com.tecacet.util.conversion.DateToStringConverter;
-import com.tecacet.util.conversion.DoubleToStringConverter;
-import com.tecacet.util.introspection.MapPropertyAccessor;
-import com.tecacet.util.introspection.PropertyAccessor;
 
 public class BeanWriterRowMapperTest {
 

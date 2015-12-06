@@ -5,7 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.joda.time.LocalTime;
 import org.junit.Test;
 
-import com.tecacet.util.conversion.LocalTimeConverter;
+import com.tecacet.jflat.conversion.LocalTimeConverter;
 
 public class LocalTimeConverterTest {
 

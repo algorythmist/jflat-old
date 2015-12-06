@@ -22,9 +22,9 @@ import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
 
+import com.tecacet.jflat.conversion.DataConverter;
 import com.tecacet.jflat.om.Customer;
 import com.tecacet.jflat.om.Order;
-import com.tecacet.util.conversion.DataConverter;
 
 public class BeanReaderRowMapperTest {
 

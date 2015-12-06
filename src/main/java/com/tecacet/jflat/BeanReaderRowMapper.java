@@ -19,12 +19,12 @@ package com.tecacet.jflat;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.tecacet.util.conversion.DataConverter;
-import com.tecacet.util.introspection.BeanFactory;
-import com.tecacet.util.introspection.BeanIntrospectorException;
-import com.tecacet.util.introspection.DefaultBeanFactory;
-import com.tecacet.util.introspection.PropertyAccessor;
-import com.tecacet.util.introspection.jodd.JoddPropertyAccessor;
+import com.tecacet.jflat.conversion.DataConverter;
+import com.tecacet.jflat.introspection.BeanFactory;
+import com.tecacet.jflat.introspection.BeanIntrospectorException;
+import com.tecacet.jflat.introspection.DefaultBeanFactory;
+import com.tecacet.jflat.introspection.PropertyAccessor;
+import com.tecacet.jflat.introspection.jodd.JoddPropertyAccessor;
 
 /**
  * Basic implementation of ReaderRowMapper that uses a columnMapping to
