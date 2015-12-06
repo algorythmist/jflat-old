@@ -32,13 +32,11 @@ public class PoiExcelReaderTest {
 	@Test
 	public void testReadNewExcel() throws IOException {
 		readAll("testdata/prices.xlsx");
-
 	}
 
 	@Test
 	public void testReadOldExcel() throws IOException {
 		readAll("testdata/prices.xls");
-
 	}
 
 	private void readAll(String filename) throws IOException {
