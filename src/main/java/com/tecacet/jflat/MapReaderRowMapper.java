@@ -24,7 +24,7 @@ import java.util.Map;
  * @author Dimitri Papaioannou
  * 
  */
-public class MapReaderRowMapper implements ReaderRowMapper<Map<String, String>> {
+public class MapReaderRowMapper  extends AbstractReaderRowMapper<Map<String, String>> {
 
     private int headerRow = 1;
 

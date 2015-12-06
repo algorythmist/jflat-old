@@ -22,7 +22,7 @@ package com.tecacet.jflat;
  * 
  */
 @SuppressWarnings("rawtypes")
-public class DefaultRowMapper implements ReaderRowMapper, WriterRowMapper {
+public class DefaultRowMapper extends AbstractReaderRowMapper implements  WriterRowMapper {
 
     public Object getRow(String[] row, int rowNumber) {
         return row;

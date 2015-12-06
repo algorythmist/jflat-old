@@ -15,6 +15,7 @@
  */
 package com.tecacet.jflat;
 
+import com.tecacet.jflat.conversion.ConverterRegistry;
 
 /**
  * 
@@ -34,4 +35,6 @@ public interface ReaderRowMapper<T> {
      * @return the bean corresponding to this row. Implementations should return null if the row is null or if it is not mapped.
      */
     T getRow(String[] row, int rowNumber);
+
+	ConverterRegistry getConverterRegistry();
 }

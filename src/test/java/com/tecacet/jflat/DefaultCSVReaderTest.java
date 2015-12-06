@@ -12,6 +12,9 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.tecacet.jflat.conversion.ConverterRegistry;
+import com.tecacet.jflat.conversion.jodd.JoddConverterRegistry;
+
 public class DefaultCSVReaderTest {
 
     CSVReader<String[]> csvReader;
@@ -187,6 +190,11 @@ public class DefaultCSVReaderTest {
                         i++;
                         return row;
                     }
+
+					@Override
+					public ConverterRegistry getConverterRegistry() {
+						return new JoddConverterRegistry();
+					}
 
                 });
         reader.readAll();

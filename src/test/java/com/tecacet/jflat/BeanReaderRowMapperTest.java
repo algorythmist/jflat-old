@@ -80,7 +80,7 @@ public class BeanReaderRowMapperTest {
 				new String[] { "number", "price", "quantity", "customer.name" },
 				new String[] { "Number", "Price", "Quantity", "Customer" });
 
-		mapper.registerConverter("price", new DataConverter<String, Double>() {
+		mapper.getConverterRegistry().registerConverter("price", new DataConverter<String, Double>() {
 
 			@Override
 			public Double convert(String value) {

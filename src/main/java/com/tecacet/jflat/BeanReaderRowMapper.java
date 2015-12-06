@@ -16,7 +16,6 @@
 
 package com.tecacet.jflat;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import com.tecacet.jflat.conversion.DataConverter;
@@ -35,7 +34,7 @@ import com.tecacet.jflat.introspection.jodd.JoddPropertyAccessor;
  * 
  * @param <T>
  */
-public class BeanReaderRowMapper<T> implements ReaderRowMapper<T> {
+public class BeanReaderRowMapper<T> extends AbstractReaderRowMapper<T> {
 
 	private final int headerRow;
 
@@ -43,10 +42,7 @@ public class BeanReaderRowMapper<T> implements ReaderRowMapper<T> {
 	private PropertyAccessor<T> propertyAccessor;
 	private BeanFactory beanFactory = new DefaultBeanFactory();
 	private Class<T> type;
-
-	@SuppressWarnings("rawtypes")
-	private Map<String, DataConverter> converters = new HashMap<String, DataConverter>();
-
+	
 	/**
 	 * Construct a rowMapper using a BeanManipulator to create beans and
 	 * populate properties and a column mapping to determine which properties to
@@ -121,7 +117,7 @@ public class BeanReaderRowMapper<T> implements ReaderRowMapper<T> {
 			if (property == null) {
 				continue;
 			}
-			DataConverter converter = converters.get(property);
+			DataConverter converter = getConverterRegistry().getConverter(property);
 			if (converter != null) {
 				Object value = converter.convert(row[i]);
 				propertyAccessor.setProperty(bean, property, value);
@@ -158,10 +154,5 @@ public class BeanReaderRowMapper<T> implements ReaderRowMapper<T> {
 
 	public void setPropertyAccessor(PropertyAccessor<T> propertyAccessor) {
 		this.propertyAccessor = propertyAccessor;
-	}
-
-	@SuppressWarnings("rawtypes")
-	public void registerConverter(String property, DataConverter converter) {
-		converters.put(property, converter);
 	}
 }
