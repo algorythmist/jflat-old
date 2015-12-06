@@ -33,6 +33,5 @@ public interface LineIterator {
      *             if bad things happen during the read
      */
     String getNextLine() throws IOException;
-
-	void close() throws IOException;
+    
 }

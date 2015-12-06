@@ -31,7 +31,6 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
-import com.tecacet.jflat.DefaultRowMapper;
 import com.tecacet.jflat.FlatFileReaderCallback;
 import com.tecacet.jflat.ReaderRowMapper;
 
@@ -43,15 +42,8 @@ public class PoiExcelReader<T> extends ExcelReader<T> {
 	private final InputStream is;
 
 	private NumberFormat numberFormat = new DecimalFormat("#.#####");
-
-	@SuppressWarnings("unchecked")
-	public PoiExcelReader(String filename) throws IOException,
-			InvalidFormatException {
-		this(filename, new DefaultRowMapper());
-	}
-
-	public PoiExcelReader(String filename, ReaderRowMapper<T> mapper)
-			throws IOException {
+	
+	public PoiExcelReader(String filename, ReaderRowMapper<T> mapper) throws IOException {
 		is = new FileInputStream(filename);
 		Workbook wb;
 		try {
@@ -75,8 +67,7 @@ public class PoiExcelReader<T> extends ExcelReader<T> {
 	}
 
 	protected void readSheet(Sheet sheet, FlatFileReaderCallback<T> callback) {
-		for (int rowIndex = sheet.getFirstRowNum(); rowIndex <= sheet
-				.getLastRowNum(); rowIndex++) {
+		for (int rowIndex = sheet.getFirstRowNum(); rowIndex <= sheet.getLastRowNum(); rowIndex++) {
 			Row row = sheet.getRow(rowIndex);
 			if (rowIndex < skipLines + sheet.getFirstRowNum()) {
 				continue;
@@ -109,7 +100,7 @@ public class PoiExcelReader<T> extends ExcelReader<T> {
 		is.close();
 	}
 
-	//TODO toString conversions should respect registered converters
+	// TODO toString conversions should respect registered converters
 	private String getCellContentAsString(Cell cell) {
 		switch (cell.getCellType()) {
 		case Cell.CELL_TYPE_STRING:
@@ -138,6 +129,5 @@ public class PoiExcelReader<T> extends ExcelReader<T> {
 
 		}
 	}
-
 
 }

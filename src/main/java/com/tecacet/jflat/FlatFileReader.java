@@ -17,9 +17,6 @@ package com.tecacet.jflat;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.Reader;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Reads a flat file into a collection of beans. It uses a LineParser to parse
@@ -29,7 +26,7 @@ import java.util.List;
  * 
  * @param <T>
  */
-public class FlatFileReader<T> implements StructuredFileReader<T> {
+public class FlatFileReader<T> extends AbstractReader<T> {
 
 	protected LineIterator lineIterator;
 
@@ -43,108 +40,44 @@ public class FlatFileReader<T> implements StructuredFileReader<T> {
 	 */
 	protected int skipLines;
 
-	/**
-	 * Maximum lines to read
-	 */
-	protected Integer maxLines;
-
 	protected LineParser lineParser;
 
-	protected ReaderRowMapper<T> rowMapper;
-
-	@SuppressWarnings("unchecked")
-	public FlatFileReader(Reader reader, LineParser parser) {
-		this(reader, parser, new DefaultRowMapper());
+	public FlatFileReader(LineParser lineParser, ReaderRowMapper<T> rowMapper) {
+		super(rowMapper);
+		this.lineParser = lineParser;
 	}
 
-	public FlatFileReader(Reader reader, LineParser parser, ReaderRowMapper<T> mapper) {
-		this(new BufferedReaderLineIterator(new BufferedReader(reader)), parser, mapper);
-	}
-
-	public FlatFileReader(Reader reader, ReaderRowMapper<T> mapper) {
-		this(reader, null, mapper);
-	}
-	
-	private FlatFileReader(LineIterator lineIterator, LineParser parser, ReaderRowMapper<T> mapper) {
-		this.lineIterator = lineIterator;
-		this.lineParser = parser;
-		this.rowMapper = mapper;
-		this.skipLines = DEFAULT_SKIP_LINES;
-	}
-
-	@Override
-	public void readWithCallback(FlatFileReaderCallback<T> callback) throws IOException {
+	protected void readWithCallback(BufferedReader br, FlatFileReaderCallback<T> callback) throws IOException {
+		int rowNumber = 1;
 		for (int i = 0; i < skipLines; i++) {
-			lineIterator.getNextLine();
+			readNext(br);
+			rowNumber++;
 		}
-		int row = 0;
-		String[] nextLineAsTokens = readNext();
+		String[] nextLineAsTokens = readNext(br);
 		while (nextLineAsTokens != null) {
-			if (maxLines != null && row > maxLines) {
-				break;
+			T bean = rowMapper.getRow(nextLineAsTokens, rowNumber);
+			if (bean != null) {
+				callback.processRow(rowNumber, nextLineAsTokens, bean);
 			}
-			T bean = rowMapper.getRow(nextLineAsTokens, ++row);
-			processRow(callback, row, nextLineAsTokens, bean);
-			nextLineAsTokens = readNext();
+			rowNumber++;
+			nextLineAsTokens = readNext(br);
 		}
 	}
 
-	protected void processRow(FlatFileReaderCallback<T> callback, int row, String[] nextLineAsTokens, T bean) {
-		callback.processRow(row, nextLineAsTokens, bean);
-	}
-
-	@Override
-	public List<T> readAll() throws IOException {
-		final List<T> allElements = new ArrayList<T>();
-		readWithCallback(new FlatFileReaderCallback<T>() {
-
-			public void processRow(int rowIndex, String[] tokens, T bean) {
-				if (bean != null) {
-					allElements.add(bean);
-				}
-			}
-		});
-		return allElements;
-	}
-
-	protected String[] readNext() throws IOException {
-		String line = lineIterator.getNextLine();
+	protected String[] readNext(BufferedReader bufferedReader) throws IOException {
+		String line = bufferedReader.readLine();
 		if (line == null) {
 			return null;
 		}
 		return lineParser.parseLine(line);
 	}
 
-	/**
-	 * Clean up resources
-	 * 
-	 * @throws IOException
-	 */
-	public void close() throws IOException {
-		lineIterator.close();
+	public LineParser getLineParser() {
+		return lineParser;
 	}
 
-	/**
-	 * The number of lines to skip before reading a file
-	 * 
-	 * @return number of skipped lines
-	 */
-	public int getSkipLines() {
-		return skipLines;
-	}
-
-	/**
-	 * Set the number of lines to skip before reading a file.
-	 * 
-	 * @param skipLines
-	 *            number of skipped lines
-	 */
-	public void setSkipLines(int skipLines) {
-		this.skipLines = skipLines;
-	}
-
-	public void setMaxLines(int maxLines) {
-		this.maxLines = maxLines;
+	public void setLineParser(LineParser lineParser) {
+		this.lineParser = lineParser;
 	}
 
 }

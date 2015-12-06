@@ -32,8 +32,4 @@ public class BufferedReaderLineIterator implements LineIterator {
 		return br.readLine();
 	}
 
-	@Override
-	public void close() throws IOException {
-		br.close();
-	}
 }

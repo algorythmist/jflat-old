@@ -21,9 +21,9 @@ package com.tecacet.jflat;
  * @author Dimitri Papaioannou
  * 
  */
-public class DefaultRowMapper extends AbstractReaderRowMapper implements  WriterRowMapper {
+public class DefaultRowMapper extends AbstractReaderRowMapper<String[]> implements WriterRowMapper {
 
-    public Object getRow(String[] row, int rowNumber) {
+    public String[] getRow(String[] row, int rowNumber) {
         return row;
     }
 

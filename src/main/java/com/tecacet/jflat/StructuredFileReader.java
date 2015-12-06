@@ -25,6 +25,5 @@ public interface StructuredFileReader<T> {
      *             if bad things happen during the read
      */
     List<T> readAll() throws IOException;
-
-    void close() throws IOException;
+    
 }
