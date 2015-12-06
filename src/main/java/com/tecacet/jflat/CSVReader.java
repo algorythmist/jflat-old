@@ -25,7 +25,7 @@ import java.io.IOException;
  * 
  * @param <T>
  */
-public class CSVReader<T> extends AbstractReader<T> {
+public class CSVReader<T> extends AbstractTabularDataReader<T> {
 
 	private static final char DEFAULT_QUOTE = '"';
 	private static final char DEFAULT_DELIMITER = ',';
@@ -37,6 +37,10 @@ public class CSVReader<T> extends AbstractReader<T> {
 		super(mapper);
 	}
 
+	public CSVReader(Class<T> type, String[] properties, String[] columns) {
+		this(new BeanReaderRowMapper<>(type, properties, columns));
+	}
+
 	public void setSeparator(char separator) {
 		this.delimiter = separator;
 	}
@@ -46,7 +50,7 @@ public class CSVReader<T> extends AbstractReader<T> {
 	}
 
 	@Override
-	protected void readWithCallback(BufferedReader br, FlatFileReaderCallback<T> callback) throws IOException {
+	protected void readWithCallback(BufferedReader br, TabularDataReaderCallback<T> callback) throws IOException {
 		LineIterator lineIterator = new BufferedReaderLineIterator(br);
 		CSVParser lineParser = new CSVParser(lineIterator);
 		lineParser.setQuotechar(quote);

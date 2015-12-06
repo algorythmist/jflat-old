@@ -30,10 +30,8 @@ public class PoiExcelWriter<T> {
 
 	private final WriterRowMapper<T> rowMapper;
 
-	public PoiExcelWriter(String filename, WriterRowMapper<T> mapper)
-			throws IOException {
-		this(ExcelHelper.getWorkbook(ExcelHelper.getExtension(filename)),
-				mapper);
+	public PoiExcelWriter(String filename, WriterRowMapper<T> mapper) throws IOException {
+		this(ExcelHelper.getWorkbook(ExcelHelper.getExtension(filename)), mapper);
 	}
 
 	public PoiExcelWriter(Workbook workbook, WriterRowMapper<T> mapper) {
@@ -42,8 +40,7 @@ public class PoiExcelWriter<T> {
 		this.excelHelper = ExcelHelper.getHelper(workbook);
 	}
 
-	public void export(List<T> beans, String[] columnNames,
-			String[] properties, Sheet sheet) throws IOException {
+	public void export(List<T> beans, String[] columnNames, String[] properties, Sheet sheet) throws IOException {
 		Row headerRow = sheet.createRow(0);
 		excelHelper.putValues(headerRow, columnNames);
 		for (int rowindex = 0; rowindex < beans.size(); rowindex++) {

@@ -31,7 +31,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
-import com.tecacet.jflat.FlatFileReaderCallback;
+import com.tecacet.jflat.TabularDataReaderCallback;
 import com.tecacet.jflat.ReaderRowMapper;
 
 public class PoiExcelReader<T> extends ExcelReader<T> {
@@ -62,11 +62,11 @@ public class PoiExcelReader<T> extends ExcelReader<T> {
 	 * @param callback
 	 * @throws IOException
 	 */
-	public void readWithCallback(FlatFileReaderCallback<T> callback) {
+	public void readWithCallback(TabularDataReaderCallback<T> callback) {
 		readSheet(currentSheet, callback);
 	}
 
-	protected void readSheet(Sheet sheet, FlatFileReaderCallback<T> callback) {
+	protected void readSheet(Sheet sheet, TabularDataReaderCallback<T> callback) {
 		for (int rowIndex = sheet.getFirstRowNum(); rowIndex <= sheet.getLastRowNum(); rowIndex++) {
 			Row row = sheet.getRow(rowIndex);
 			if (rowIndex < skipLines + sheet.getFirstRowNum()) {

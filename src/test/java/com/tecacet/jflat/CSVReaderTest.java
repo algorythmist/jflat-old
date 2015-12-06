@@ -29,44 +29,43 @@ import com.tecacet.jflat.om.Contact;
 
 public class CSVReaderTest {
 
-    @Test
-    public void testReadWithColumnPositionMapping() throws Exception {
-        Map<Integer, String> map = new HashMap<Integer, String>();
-        map.put(0, "firstName");
-        map.put(1, "lastName");
-        ColumnMapping mappingStrategy = new ColumnPositionMapping(map);
-        ReaderRowMapper<Contact> rowMapper = new BeanReaderRowMapper<Contact>(Contact.class, mappingStrategy);
-                CSVReader<Contact> csvReader = new CSVReader<Contact>(rowMapper);
-        csvReader.setSkipLines(1);
-        FileReader reader = new FileReader("testdata/contacts.csv");
-        List<Contact> contacts = csvReader.readAll(reader);
-        Contact c = contacts.get(1);
-        assertEquals("Cohen",c.getLastName());
-    }
-    
-    @Test
-    public void testReadWithHeaderColumnNameMapping() throws Exception {
-        Map<String, String> map = new HashMap<String, String>();
-        map.put("First Name", "firstName");
-        map.put("Last Name", "lastName");
-        ColumnMapping mappingStrategy = new HeaderColumnNameMapping(map);
-        ReaderRowMapper<Contact> rowMapper = new BeanReaderRowMapper<Contact>(Contact.class, mappingStrategy);
-        FileReader reader = new FileReader("testdata/contacts.csv");
-        CSVReader<Contact> csvReader = new CSVReader<Contact>(rowMapper);
-        List<Contact> contacts = csvReader.readAll(reader);
-        Contact c = contacts.get(1);
-        assertEquals("Cohen",c.getLastName());
-    }
-    
-    @Test
-    public void testReadWithHeaderColumnNameMappingAsArray() throws Exception {
-        ReaderRowMapper<Contact> rowMapper = new BeanReaderRowMapper<Contact>(Contact.class, 
-                new String[] {"firstName", "lastName"},
-                new String[] {"First Name","Last Name"});
-        FileReader reader = new FileReader("testdata/contacts.csv");
-        CSVReader<Contact> csvReader = new CSVReader<Contact>(rowMapper);
-        List<Contact> contacts = csvReader.readAll(reader);
-        Contact c = contacts.get(1);
-        assertEquals("Cohen",c.getLastName());
-    }
+	@Test
+	public void testReadWithColumnPositionMapping() throws Exception {
+		Map<Integer, String> map = new HashMap<Integer, String>();
+		map.put(0, "firstName");
+		map.put(1, "lastName");
+		ColumnMapping mappingStrategy = new ColumnPositionMapping(map);
+		ReaderRowMapper<Contact> rowMapper = new BeanReaderRowMapper<Contact>(Contact.class, mappingStrategy);
+		CSVReader<Contact> csvReader = new CSVReader<Contact>(rowMapper);
+		csvReader.setSkipLines(1);
+		FileReader reader = new FileReader("testdata/contacts.csv");
+		List<Contact> contacts = csvReader.readAll(reader);
+		Contact c = contacts.get(1);
+		assertEquals("Cohen", c.getLastName());
+	}
+
+	@Test
+	public void testReadWithHeaderColumnNameMapping() throws Exception {
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("First Name", "firstName");
+		map.put("Last Name", "lastName");
+		ColumnMapping mappingStrategy = new HeaderColumnNameMapping(map);
+		ReaderRowMapper<Contact> rowMapper = new BeanReaderRowMapper<Contact>(Contact.class, mappingStrategy);
+		FileReader reader = new FileReader("testdata/contacts.csv");
+		CSVReader<Contact> csvReader = new CSVReader<Contact>(rowMapper);
+		List<Contact> contacts = csvReader.readAll(reader);
+		Contact c = contacts.get(1);
+		assertEquals("Cohen", c.getLastName());
+	}
+
+	@Test
+	public void testReadWithHeaderColumnNameMappingAsArray() throws Exception {
+		
+		CSVReader<Contact> csvReader = new CSVReader<Contact>(Contact.class,
+				new String[] { "firstName", "lastName" }, new String[] { "First Name", "Last Name" });
+		FileReader reader = new FileReader("testdata/contacts.csv");
+		List<Contact> contacts = csvReader.readAll(reader);
+		Contact c = contacts.get(1);
+		assertEquals("Cohen", c.getLastName());
+	}
 }

@@ -23,7 +23,7 @@ import java.util.List;
 import org.junit.Test;
 
 import com.tecacet.jflat.BeanReaderRowMapper;
-import com.tecacet.jflat.FlatFileReaderCallback;
+import com.tecacet.jflat.TabularDataReaderCallback;
 import com.tecacet.jflat.ReaderRowMapper;
 import com.tecacet.jflat.om.StockPrice;
 
@@ -52,7 +52,7 @@ public class PoiExcelReaderTest {
 		assertEquals(1577.03, price.getClosePrice(), 2);
 		assertEquals(1521220000, price.getVolume());
 
-		reader.readWithCallback(new FlatFileReaderCallback<StockPrice>() {
+		reader.readWithCallback(new TabularDataReaderCallback<StockPrice>() {
 
 			@Override
 			public void processRow(int rowIndex, String[] tokens, StockPrice bean) {

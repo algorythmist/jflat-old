@@ -10,13 +10,13 @@ import java.util.List;
 
 import com.tecacet.jflat.conversion.ConverterRegistry;
 
-public abstract class AbstractReader<T> implements TabularDataReader<T> {
+public abstract class AbstractTabularDataReader<T> implements TabularDataReader<T> {
 
 	protected int skipLines = 0;
 
 	protected ReaderRowMapper<T> rowMapper;
 
-	protected AbstractReader(ReaderRowMapper<T> rowMapper) {
+	protected AbstractTabularDataReader(ReaderRowMapper<T> rowMapper) {
 		super();
 		this.rowMapper = rowMapper;
 	}
@@ -44,7 +44,7 @@ public abstract class AbstractReader<T> implements TabularDataReader<T> {
 	}
 
 	@Override
-	public void readWithCallback(InputStream is, FlatFileReaderCallback<T> callback) throws IOException {
+	public void readWithCallback(InputStream is, TabularDataReaderCallback<T> callback) throws IOException {
 		InputStreamReader isr = new InputStreamReader(is);
 		BufferedReader br = new BufferedReader(isr);
 		try {
@@ -57,7 +57,7 @@ public abstract class AbstractReader<T> implements TabularDataReader<T> {
 
 	protected List<T> readAll(BufferedReader br) throws IOException {
 		final List<T> beans = new ArrayList<>();
-		readWithCallback(br, new FlatFileReaderCallback<T>() {
+		readWithCallback(br, new TabularDataReaderCallback<T>() {
 			@Override
 			public void processRow(int rowIndex, String[] tokens, T bean) {
 				if (bean != null) {
@@ -69,7 +69,7 @@ public abstract class AbstractReader<T> implements TabularDataReader<T> {
 		return beans;
 	}
 
-	protected abstract void readWithCallback(BufferedReader br, FlatFileReaderCallback<T> callback) throws IOException;
+	protected abstract void readWithCallback(BufferedReader br, TabularDataReaderCallback<T> callback) throws IOException;
 
 	public int getSkipLines() {
 		return skipLines;

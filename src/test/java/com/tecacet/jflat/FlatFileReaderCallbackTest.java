@@ -17,7 +17,7 @@ public class FlatFileReaderCallbackTest {
     @Test
     public void testProcessRow() throws IOException {
         final List<Order> orders = new ArrayList<Order>();
-        FlatFileReaderCallback<Order> callback = new FlatFileReaderCallback<Order>() {
+        TabularDataReaderCallback<Order> callback = new TabularDataReaderCallback<Order>() {
 
             @Override
             public void processRow(int rowIndex, String[] tokens, Order order) {

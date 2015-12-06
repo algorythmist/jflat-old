@@ -12,7 +12,7 @@ public interface StructuredFileReader<T> {
      * @param callback
      * @throws IOException
      */
-    void readWithCallback(FlatFileReaderCallback<T> callback) throws IOException;
+    void readWithCallback(TabularDataReaderCallback<T> callback) throws IOException;
 
     /**
      * Reads the entire file into a List. Each element is a bean of type T

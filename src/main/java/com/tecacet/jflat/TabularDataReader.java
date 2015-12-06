@@ -14,7 +14,7 @@ public interface TabularDataReader<T> {
 	
 	List<T> readAll(InputStream is) throws IOException;
 	
-	void readWithCallback(InputStream is, FlatFileReaderCallback<T> callback) throws IOException;
+	void readWithCallback(InputStream is, TabularDataReaderCallback<T> callback) throws IOException;
 	
 	ConverterRegistry getConverterRegistry();
 }

@@ -26,7 +26,7 @@ import java.io.IOException;
  * 
  * @param <T>
  */
-public class FlatFileReader<T> extends AbstractReader<T> {
+public class FlatFileReader<T> extends AbstractTabularDataReader<T> {
 
 	protected LineIterator lineIterator;
 
@@ -47,7 +47,7 @@ public class FlatFileReader<T> extends AbstractReader<T> {
 		this.lineParser = lineParser;
 	}
 
-	protected void readWithCallback(BufferedReader br, FlatFileReaderCallback<T> callback) throws IOException {
+	protected void readWithCallback(BufferedReader br, TabularDataReaderCallback<T> callback) throws IOException {
 		int rowNumber = 1;
 		for (int i = 0; i < skipLines; i++) {
 			readNext(br);

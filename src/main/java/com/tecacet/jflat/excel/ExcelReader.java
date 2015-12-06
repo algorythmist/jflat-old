@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.tecacet.jflat.FlatFileReaderCallback;
+import com.tecacet.jflat.TabularDataReaderCallback;
 import com.tecacet.jflat.ReaderRowMapper;
 import com.tecacet.jflat.StructuredFileReader;
 
@@ -49,7 +49,7 @@ public abstract class ExcelReader<T> implements StructuredFileReader<T> {
 	 */
 	public List<T> readAll() throws IOException {
 		final List<T> allElements = new ArrayList<T>();
-		readWithCallback(new FlatFileReaderCallback<T>() {
+		readWithCallback(new TabularDataReaderCallback<T>() {
 
 			public void processRow(int rowIndex, String[] tokens, T bean) {
 				if (bean != null) {
