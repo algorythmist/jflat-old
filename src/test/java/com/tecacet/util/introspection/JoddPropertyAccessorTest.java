@@ -1,3 +1,19 @@
+/*
+ Copyright 2008 TecAceT Ltd.
+
+ Licensed under the Apache License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+ */
+
 package com.tecacet.util.introspection;
 
 import static org.junit.Assert.assertEquals;
@@ -9,11 +25,8 @@ import static org.junit.Assert.assertTrue;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
-import org.apache.commons.beanutils.ConvertUtils;
-import org.apache.commons.beanutils.converters.DateConverter;
 import org.junit.Test;
 
 import com.tecacet.jflat.om.Order;
@@ -32,7 +45,7 @@ public class JoddPropertyAccessorTest {
 		accessor.setProperty(stockPrice, "closePrice", 10.0);
 		assertEquals(11.0, accessor.getProperty(stockPrice, "averagePrice"));
 	}
-	
+
 	@Test
 	public void testJoddAccessor() {
 		PropertyAccessor<Order> accessor = new JoddPropertyAccessor<Order>();
@@ -40,12 +53,7 @@ public class JoddPropertyAccessorTest {
 		testSetNullProperty(accessor);
 	}
 
-	private void testSetProperty(PropertyAccessor<Order> accessor)
-			throws BeanIntrospectorException {
-		DateConverter dateConverter = new DateConverter(null);
-		dateConverter.setPattern("yyyy-MM-dd");
-		ConvertUtils.register(dateConverter, Date.class);
-
+	private void testSetProperty(PropertyAccessor<Order> accessor) throws BeanIntrospectorException {
 		Order bean = new Order();
 
 		accessor.setProperty(bean, "number", "1234");
@@ -74,8 +82,7 @@ public class JoddPropertyAccessorTest {
 		assertEquals("James", accessor.getProperty(bean, "customer.firstName"));
 	}
 
-	private void testSetNullProperty(PropertyAccessor<Order> accessor)
-			throws BeanIntrospectorException {
+	private void testSetNullProperty(PropertyAccessor<Order> accessor) throws BeanIntrospectorException {
 		Order bean = new Order();
 
 		accessor.setProperty(bean, "account", null);

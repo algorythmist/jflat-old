@@ -5,9 +5,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.apache.commons.beanutils.ConversionException;
 import org.joda.time.LocalTime;
 
+//TODO use joda formatter
 public class LocalTimeConverter implements DataConverter<String, LocalTime> {
 
 	private final DateFormat format;
@@ -23,11 +23,13 @@ public class LocalTimeConverter implements DataConverter<String, LocalTime> {
 			return null;
 		}
 		Date date;
+
 		try {
 			date = format.parse(from.trim());
 		} catch (ParseException e) {
-			throw new ConversionException(e);
+			throw new RuntimeException(e); //TODO
 		}
+
 		return new LocalTime(date);
 	}
 

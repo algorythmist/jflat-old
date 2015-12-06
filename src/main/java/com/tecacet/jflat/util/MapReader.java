@@ -7,8 +7,8 @@ import java.io.InputStreamReader;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Like java.util.Properties but respects spaces
@@ -18,7 +18,7 @@ import org.apache.commons.logging.LogFactory;
  */
 public class MapReader {
 
-    private Log log = LogFactory.getLog(this.getClass());
+    private Logger log = LoggerFactory.getLogger(this.getClass());
     
     private boolean convertToLowerCase = false;
     
@@ -41,12 +41,12 @@ public class MapReader {
             }
             String[] nextLineAsTokens = line.split("=");
             if (nextLineAsTokens.length < 2) {
-                log.warn("Line does not contain an assignment: " + line);
+                log.warn("Line does not contain an assignment: {} ", line);
                 line = br.readLine();
                 continue;
             }
             if (nextLineAsTokens.length > 2) {
-                log.warn("Ambiguous assignement: " + line);
+                log.warn("Ambiguous assignement: {}", line);
                 line = br.readLine();
                 continue;
             }
