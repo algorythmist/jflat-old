@@ -25,7 +25,6 @@ import java.io.Writer;
  */
 public class DefaultCSVWriter extends CSVWriter<String[]> {
 
-    @SuppressWarnings("unchecked")
     public DefaultCSVWriter(Writer writer) {
         super(writer, new DefaultRowMapper());
 

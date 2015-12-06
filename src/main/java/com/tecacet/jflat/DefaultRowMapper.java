@@ -21,13 +21,13 @@ package com.tecacet.jflat;
  * @author Dimitri Papaioannou
  * 
  */
-public class DefaultRowMapper extends AbstractReaderRowMapper<String[]> implements WriterRowMapper {
+public class DefaultRowMapper extends AbstractReaderRowMapper<String[]> implements WriterRowMapper<String[]> {
 
     public String[] getRow(String[] row, int rowNumber) {
         return row;
     }
 
-    public String[] getRow(Object bean) {
+    public String[] getRow(String[] bean) {
         return (String[]) bean;
     }
 
