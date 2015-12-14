@@ -29,7 +29,7 @@ public class MapPropertyAccessorTest {
 
     @Test
     public void testSetGetProperty() throws BeanIntrospectorException {
-        Map map = new HashMap();
+        Map<String,Object> map = new HashMap<>();
         MapPropertyAccessor accessor = new MapPropertyAccessor();
         assertNull(accessor.getProperty(map, "any"));
         accessor.setProperty(map, "name", "Indigo");
