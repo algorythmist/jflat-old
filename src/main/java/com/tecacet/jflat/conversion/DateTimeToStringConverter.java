@@ -7,7 +7,7 @@ public class DateTimeToStringConverter implements ToStringConverter<DateTime> {
 
     private static final String DEFAULT_DATE_PATTERN = "HH:mm:ss";
 
-    private String dateFormat;
+    private final String dateFormat;
 
     public DateTimeToStringConverter(String dateFormat) {
         this.dateFormat = dateFormat;

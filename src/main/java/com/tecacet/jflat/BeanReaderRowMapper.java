@@ -20,7 +20,6 @@ import java.util.Map;
 
 import com.tecacet.jflat.conversion.DataConverter;
 import com.tecacet.jflat.introspection.BeanFactory;
-import com.tecacet.jflat.introspection.BeanIntrospectorException;
 import com.tecacet.jflat.introspection.DefaultBeanFactory;
 import com.tecacet.jflat.introspection.PropertyAccessor;
 import com.tecacet.jflat.introspection.jodd.JoddPropertyAccessor;
@@ -104,7 +103,7 @@ public class BeanReaderRowMapper<T> extends AbstractReaderRowMapper<T> {
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	@Override
-	public T getRow(String[] row, int rowNumber) throws BeanIntrospectorException {
+	public T getRow(String[] row, int rowNumber) {
 		if (rowNumber == headerRow) {
 			if (columnMapping.requiresHeaderRow()) {
 				columnMapping.setHeaderRow(row);

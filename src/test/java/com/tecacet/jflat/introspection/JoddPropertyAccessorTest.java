@@ -29,8 +29,6 @@ import java.util.GregorianCalendar;
 
 import org.junit.Test;
 
-import com.tecacet.jflat.introspection.BeanIntrospectorException;
-import com.tecacet.jflat.introspection.PropertyAccessor;
 import com.tecacet.jflat.introspection.jodd.JoddPropertyAccessor;
 import com.tecacet.jflat.om.Order;
 import com.tecacet.jflat.om.StockPrice;
@@ -55,7 +53,7 @@ public class JoddPropertyAccessorTest {
 		testSetNullProperty(accessor);
 	}
 
-	private void testSetProperty(PropertyAccessor<Order> accessor) throws BeanIntrospectorException {
+	private void testSetProperty(PropertyAccessor<Order> accessor)  {
 		Order bean = new Order();
 
 		accessor.setProperty(bean, "number", "1234");
@@ -84,7 +82,7 @@ public class JoddPropertyAccessorTest {
 		assertEquals("James", accessor.getProperty(bean, "customer.firstName"));
 	}
 
-	private void testSetNullProperty(PropertyAccessor<Order> accessor) throws BeanIntrospectorException {
+	private void testSetNullProperty(PropertyAccessor<Order> accessor)  {
 		Order bean = new Order();
 
 		accessor.setProperty(bean, "account", null);

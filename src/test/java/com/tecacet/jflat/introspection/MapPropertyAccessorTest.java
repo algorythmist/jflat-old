@@ -15,25 +15,23 @@
  */
 package com.tecacet.jflat.introspection;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Test;
 
-import com.tecacet.jflat.introspection.BeanIntrospectorException;
-import com.tecacet.jflat.introspection.MapPropertyAccessor;
-
 public class MapPropertyAccessorTest {
 
-    @Test
-    public void testSetGetProperty() throws BeanIntrospectorException {
-        Map<String,Object> map = new HashMap<>();
-        MapPropertyAccessor accessor = new MapPropertyAccessor();
-        assertNull(accessor.getProperty(map, "any"));
-        accessor.setProperty(map, "name", "Indigo");
-        assertEquals("Indigo", accessor.getProperty(map, "name"));
-    }
+	@Test
+	public void testSetGetProperty() {
+		Map<String, Object> map = new HashMap<>();
+		MapPropertyAccessor accessor = new MapPropertyAccessor();
+		assertNull(accessor.getProperty(map, "any"));
+		accessor.setProperty(map, "name", "Indigo");
+		assertEquals("Indigo", accessor.getProperty(map, "name"));
+	}
 
 }
