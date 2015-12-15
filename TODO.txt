@@ -1,4 +1,5 @@
 - jacoco coverage
+- better support for string conversion on writers - use registry
 - validate properties at construction time - fail fast
 - create readers via factories
 - Add copyright to all files

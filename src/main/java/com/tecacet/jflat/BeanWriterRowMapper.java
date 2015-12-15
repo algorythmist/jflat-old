@@ -38,8 +38,7 @@ public class BeanWriterRowMapper<T> implements WriterRowMapper<T> {
 	private Map<String, ValueExtractor<T>> extractors = new HashMap<String, ValueExtractor<T>>();
 	private Map<Class<?>, ToStringConverter<?>> converters = new HashMap<Class<?>, ToStringConverter<?>>();
 
-	public BeanWriterRowMapper(ColumnMapping columnMapping,
-			PropertyAccessor<T> propertyAccessor) {
+	public BeanWriterRowMapper(ColumnMapping columnMapping, PropertyAccessor<T> propertyAccessor) {
 		this.columnMapping = columnMapping;
 		this.propertyAccessor = propertyAccessor;
 	}
@@ -49,8 +48,7 @@ public class BeanWriterRowMapper<T> implements WriterRowMapper<T> {
 	}
 
 	public BeanWriterRowMapper(Class<T> type, String[] properties) {
-		this(new ColumnPositionMapping(properties),
-				new JoddPropertyAccessor<T>());
+		this(new ColumnPositionMapping(properties), new JoddPropertyAccessor<T>());
 	}
 
 	public String[] getRow(T bean) {
@@ -71,7 +69,7 @@ public class BeanWriterRowMapper<T> implements WriterRowMapper<T> {
 	}
 
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-    private String toString(Object o) {
+	private String toString(Object o) {
 		if (o == null || o instanceof String) {
 			return (String) o;
 		}
@@ -90,8 +88,7 @@ public class BeanWriterRowMapper<T> implements WriterRowMapper<T> {
 		this.columnMapping = columnMapping;
 	}
 
-	public void registerValueExtractor(String property,
-			ValueExtractor<T> extractor) {
+	public void registerValueExtractor(String property, ValueExtractor<T> extractor) {
 		extractors.put(property, extractor);
 	}
 
