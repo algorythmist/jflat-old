@@ -40,8 +40,12 @@ public class CSVReader<T> extends AbstractTabularDataReader<T> {
 	public CSVReader(Class<T> type, String[] properties, String[] columns) {
 		super(new BeanReaderRowMapper<>(type, properties, columns));
 	}
+	
+	public CSVReader(Class<T> type, String[] properties) {
+		super(new BeanReaderRowMapper<>(type, properties));
+	}
 
-	public void setSeparator(char separator) {
+	public void setDelimiter(char separator) {
 		this.delimiter = separator;
 	}
 
@@ -63,7 +67,9 @@ public class CSVReader<T> extends AbstractTabularDataReader<T> {
 		while (nextLineAsTokens != null) {
 			
 			T bean = rowMapper.getRow(nextLineAsTokens, ++row);
-			callback.processRow(row, nextLineAsTokens, bean);
+			if (bean != null) {
+				callback.processRow(row, nextLineAsTokens, bean);
+			}
 			nextLineAsTokens = readNext(lineIterator, lineParser);
 		}
 	}

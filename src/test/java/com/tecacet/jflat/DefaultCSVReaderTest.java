@@ -111,7 +111,7 @@ public class DefaultCSVReaderTest {
         sb.append("a\t'b\tb\tb'\tc").append("\n"); // single quoted elements
         CSVReader<String[]> csvReader = new DefaultCSVReader();
         csvReader.setQuotechar('\'');
-        csvReader.setSeparator('\t');
+        csvReader.setDelimiter('\t');
         
         List<String[]> lines = csvReader.readAll(new StringReader(sb.toString()));
         String[] nextLine = lines.get(0);
@@ -138,7 +138,7 @@ public class DefaultCSVReaderTest {
         sb.append("a\t'b\tb\tb'\tc").append("\n"); // single quoted elements
         CSVReader<String[]> reader = new DefaultCSVReader();
         reader.setQuotechar('\'');
-        reader.setSeparator('\t');
+        reader.setDelimiter('\t');
         reader.setSkipLines(2);
 
         List<String[]> lines = reader.readAll(new StringReader(sb.toString()));
