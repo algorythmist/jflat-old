@@ -29,7 +29,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 
 import com.tecacet.jflat.WriterRowMapper;
 
-public class PoiExcelWriter<T> {
+public class ExcelWriter<T> {
 
 	private String dateFormat = "m/d/yy h:mm";
 	private final Workbook workbook;
@@ -37,7 +37,7 @@ public class PoiExcelWriter<T> {
 	private final CreationHelper createHelper;
 	private final String filename;
 
-	public PoiExcelWriter(String filename, WriterRowMapper<T> mapper) throws IOException {
+	public ExcelWriter(String filename, WriterRowMapper<T> mapper) throws IOException {
 		this.workbook = ExcelHelper.getWorkbook(filename);
 		this.rowMapper = mapper;
 		this.createHelper = workbook.getCreationHelper();
@@ -71,7 +71,6 @@ public class PoiExcelWriter<T> {
 	}
 
 	private void setCellValue(Cell cell, Object object) {
-
 		if (object == null) {
 			cell.setCellValue("");
 			return;
@@ -99,28 +98,4 @@ public class PoiExcelWriter<T> {
 		cellStyle.setDataFormat(createHelper.createDataFormat().getFormat(dateFormat));
 		return cellStyle;
 	}
-
-	/**
-	 * Creates a cell and aligns it a certain way.
-	 * 
-	 * @param wb
-	 *            the workbook
-	 * @param row
-	 *            the row to create the cell in
-	 * @param column
-	 *            the column number to create the cell in
-	 * @param halign
-	 *            the horizontal alignment for the cell.
-	 */
-	//TODO use it or lose it
-	private Cell createCell(Row row, short column, short halign, short valign) {
-		Cell cell = row.createCell(column);
-		// cell.setCellValue("Align It");
-		CellStyle cellStyle = workbook.createCellStyle();
-		cellStyle.setAlignment(halign);
-		cellStyle.setVerticalAlignment(valign);
-		cell.setCellStyle(cellStyle);
-		return cell;
-	}
-
 }

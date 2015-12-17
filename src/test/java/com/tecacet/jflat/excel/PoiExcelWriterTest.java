@@ -20,7 +20,7 @@ public class PoiExcelWriterTest {
 		String filename = "contacts.xls";
 		String[] fields = new String[] { "firstName", "lastName", "rating", "birthday" };
 		BeanWriterRowMapper<Contact> mapper = new BeanWriterRowMapper<>(Contact.class, fields);
-		PoiExcelWriter<Contact> contactWriter = new PoiExcelWriter<>(filename, mapper);
+		ExcelWriter<Contact> contactWriter = new ExcelWriter<>(filename, mapper);
 		Contact contact1 = createContact("Alan", "Bloom", 3, new Date());
 		Contact contact2 = createContact("Alice", "Baker", 10, new Date());
 		List<Contact> contacts = Arrays.asList(contact1, contact2);

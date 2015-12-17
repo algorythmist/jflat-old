@@ -22,7 +22,11 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-public class ExcelHelper {
+public final class ExcelHelper {
+	
+	private ExcelHelper() {
+		super();
+	}
 
 	public static Workbook getWorkbook(String filename) throws IOException {
 		String extension = getExtension(filename);

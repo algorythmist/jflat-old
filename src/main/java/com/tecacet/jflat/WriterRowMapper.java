@@ -33,4 +33,5 @@ public interface WriterRowMapper<T> {
      *            the bean
      */
     String[] getRow(T bean);
+    
 }

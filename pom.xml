@@ -62,7 +62,7 @@
 		<poi.version>3.13</poi.version>
 		<slf4j.version>1.7.13</slf4j.version>
 		<junit.version>4.12</junit.version>
-		<coverage.totalLineRate>0.7</coverage.totalLineRate>
+		<coverage.totalLineRate>0.8</coverage.totalLineRate>
 	</properties>
 
 	<dependencies>

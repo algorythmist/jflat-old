@@ -4,9 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * commons beanutils does not have real support for conversion of arbitrary
- * types to strings. This is a replacement for the default beanutils String
- * converters that allows arbitrary conversion of data types to strings by
+ * This class allows arbitrary conversion of data types to strings by
  * registering ToStringConverters.
  * 
  */
@@ -33,8 +31,7 @@ public class SmartStringConverter implements ToStringConverter<Object> {
 	public boolean supports(Class<?> type) {
 		return registry.containsKey(type);
 	}
-
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	
     @Override
 	public String convert(Object from) {
 		if (from == null) {

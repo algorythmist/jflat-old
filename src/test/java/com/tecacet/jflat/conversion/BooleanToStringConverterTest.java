@@ -19,5 +19,15 @@ public class BooleanToStringConverterTest {
         assertEquals("No", converter.convert(false));
         assertEquals("Si", converter.convert(true));
     }
+    
+    @Test
+    public void testCustomConvert() {
+        BooleanToStringConverter converter = new BooleanToStringConverter("SI","NO");
+        assertEquals("SI", converter.getYesString());
+        assertEquals("NO", converter.getNoString());
+        assertEquals("NO", converter.convert(false));
+        assertEquals("SI", converter.convert(true));
+
+    }
 
 }
