@@ -23,6 +23,8 @@ import static org.junit.Assert.assertNull;
 import org.junit.Test;
 
 import com.tecacet.jflat.conversion.DataConverter;
+import com.tecacet.jflat.introspection.DefaultBeanFactory;
+import com.tecacet.jflat.introspection.jodd.JoddPropertyAccessor;
 import com.tecacet.jflat.om.Customer;
 import com.tecacet.jflat.om.Order;
 
@@ -45,6 +47,11 @@ public class BeanReaderRowMapperTest {
 
 		BeanReaderRowMapper<Order> mapper = new BeanReaderRowMapper<Order>(Order.class,
 				new String[] { "number", "price", "quantity" }, new String[] { "Number", "Price", "Quantity" });
+		assertEquals(DefaultBeanFactory.class, mapper.getBeanFactory().getClass());
+		assertEquals(HeaderColumnMapping.class, mapper.getColumnMapping().getClass());
+		assertEquals(JoddPropertyAccessor.class, mapper.getPropertyAccessor().getClass());
+		assertEquals(1, mapper.getHeaderRowIndex());
+		
 		// First row gets the header
 		Order order = mapper.getRow(new String[] { "Number", "Price", "Quantity" }, 1);
 		assertNull(order);

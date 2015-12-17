@@ -32,15 +32,20 @@ import com.tecacet.jflat.om.Order;
 
 public class BeanWriterRowMapperTest {
 
-	
 	@Test
 	public void testGetRow() {
-		BeanWriterRowMapper<Order> mapper = new BeanWriterRowMapper<Order>(
-				Order.class, new String[] { "number", "price", "quantity",
-						"date" });
-		mapper.registerConverter(Date.class, new DateToStringConverter(
-				"MM/dd/yy"));
+		BeanWriterRowMapper<Order> mapper = new BeanWriterRowMapper<Order>(Order.class,
+				new String[] { "number", "price", "quantity", "value", "date" });
+		mapper.registerConverter(Date.class, new DateToStringConverter("MM/dd/yy"));
 		mapper.registerConverter(Double.class, new DoubleToStringConverter("%03.5f"));
+		mapper.registerValueExtractor("value", new ValueExtractor<Order>() {
+
+			@Override
+			public String getValue(Order order) {
+				return Double.toString(order.getPrice() * order.getQuantity());
+			}
+		});
+		
 		Order order = new Order();
 		order.setNumber("911");
 		order.setPrice(12.3);
@@ -50,24 +55,27 @@ public class BeanWriterRowMapperTest {
 		assertEquals("911", row[0]);
 		assertEquals("12.30000", row[1]);
 		assertEquals("100", row[2]);
-		assertEquals("04/05/78", row[3]);
+		assertEquals("1230.0", row[3]);
+		assertEquals("04/05/78", row[4]);
+		
+		mapper.deregisterConverter(Double.class);
+		mapper.deregisterValueExtractor("value");
 	}
 
 	@Test
 	public void testMapPropertyAccessor() {
 		PropertyAccessor<Map<String, Object>> propertyAccessor = new MapPropertyAccessor();
-		ColumnMapping columnMapping = new ColumnPositionMapping(new String[] {
-				"number", "price", "quantity","date" });
-		BeanWriterRowMapper<Map<String, Object>> mapper = new BeanWriterRowMapper<Map<String, Object>>(
-				columnMapping, propertyAccessor);
-		mapper.registerConverter(Date.class, new DateToStringConverter(
-				"MM/dd/yy"));
+		ColumnMapping columnMapping = new PositionColumnMapping(new String[] { "number", "price", "quantity", "date" });
+		BeanWriterRowMapper<Map<String, Object>> mapper = new BeanWriterRowMapper<Map<String, Object>>(columnMapping,
+				propertyAccessor);
+		assertEquals(PositionColumnMapping.class, mapper.getColumnMapping().getClass());
+		mapper.registerConverter(Date.class, new DateToStringConverter("MM/dd/yy"));
 		mapper.registerConverter(Double.class, new DoubleToStringConverter("%03.5f"));
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("number", "911");
 		map.put("price", 12.3);
 		map.put("quantity", 100);
-		map.put("date",(new GregorianCalendar(1978, 3, 5).getTime()));
+		map.put("date", (new GregorianCalendar(1978, 3, 5).getTime()));
 		String[] row = mapper.getRow(map);
 		assertEquals("911", row[0]);
 		assertEquals("12.30000", row[1]);

@@ -51,10 +51,7 @@ public class BeanReaderRowMapper<T> extends AbstractReaderRowMapper<T> {
 	 * @param columnMapping
 	 */
 	public BeanReaderRowMapper(Class<T> type, PropertyAccessor<T> propertyAccessor, ColumnMapping columnMapping) {
-		this.columnMapping = columnMapping;
-		this.propertyAccessor = propertyAccessor;
-		this.type = type;
-		this.headerRow = 1;
+		this(type, propertyAccessor, columnMapping, 1);
 	}
 
 	public BeanReaderRowMapper(Class<T> type, PropertyAccessor<T> propertyAccessor, ColumnMapping columnMapping,
@@ -77,7 +74,7 @@ public class BeanReaderRowMapper<T> extends AbstractReaderRowMapper<T> {
 	}
 	
 	public BeanReaderRowMapper(Class<T> type, String[] properties) {
-		this(type, new JoddPropertyAccessor<T>(), new ColumnPositionMapping(properties));
+		this(type, new JoddPropertyAccessor<T>(), new PositionColumnMapping(properties));
 	}
 
 	/**
@@ -89,15 +86,15 @@ public class BeanReaderRowMapper<T> extends AbstractReaderRowMapper<T> {
 	 *            A map from column names to properties
 	 */
 	public BeanReaderRowMapper(Class<T> type, Map<String, String> columns) {
-		this(type, new JoddPropertyAccessor<T>(), new HeaderColumnNameMapping(columns));
+		this(type, new JoddPropertyAccessor<T>(), new HeaderColumnMapping(columns));
 	}
 
 	public BeanReaderRowMapper(Class<T> type, String[] properties, String[] header) {
-		this(type, new JoddPropertyAccessor<T>(), new HeaderColumnNameMapping(properties, header));
+		this(type, new JoddPropertyAccessor<T>(), new HeaderColumnMapping(properties, header));
 	}
 
 	/**
-	 * Returns a bean constructed and populated using the BeanManipulator.
+	 * Returns a new populated bean.
 	 * WARNING: This implementation returns null for the header row if the
 	 * ColumnMapping requires a header row.
 	 */
@@ -135,7 +132,7 @@ public class BeanReaderRowMapper<T> extends AbstractReaderRowMapper<T> {
 		this.columnMapping = columnMapping;
 	}
 
-	public int getHeaderRow() {
+	public int getHeaderRowIndex() {
 		return headerRow;
 	}
 

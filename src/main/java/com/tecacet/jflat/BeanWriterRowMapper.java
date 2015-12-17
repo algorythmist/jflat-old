@@ -48,7 +48,7 @@ public class BeanWriterRowMapper<T> implements WriterRowMapper<T> {
 	}
 
 	public BeanWriterRowMapper(Class<T> type, String[] properties) {
-		this(new ColumnPositionMapping(properties), new JoddPropertyAccessor<T>());
+		this(new PositionColumnMapping(properties), new JoddPropertyAccessor<T>());
 	}
 
 	public String[] getRow(T bean) {
@@ -67,8 +67,7 @@ public class BeanWriterRowMapper<T> implements WriterRowMapper<T> {
 		}
 		return row;
 	}
-
-	@SuppressWarnings({ "rawtypes", "unchecked" })
+	
 	private String toString(Object o) {
 		if (o == null || o instanceof String) {
 			return (String) o;

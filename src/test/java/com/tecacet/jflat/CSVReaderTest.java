@@ -34,7 +34,7 @@ public class CSVReaderTest {
 		Map<Integer, String> map = new HashMap<Integer, String>();
 		map.put(0, "firstName");
 		map.put(1, "lastName");
-		ColumnMapping mappingStrategy = new ColumnPositionMapping(map);
+		ColumnMapping mappingStrategy = new PositionColumnMapping(map);
 		ReaderRowMapper<Contact> rowMapper = new BeanReaderRowMapper<Contact>(Contact.class, mappingStrategy);
 		CSVReader<Contact> csvReader = new CSVReader<Contact>(rowMapper);
 		csvReader.setSkipLines(1);
@@ -49,7 +49,7 @@ public class CSVReaderTest {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("First Name", "firstName");
 		map.put("Last Name", "lastName");
-		ColumnMapping mappingStrategy = new HeaderColumnNameMapping(map);
+		ColumnMapping mappingStrategy = new HeaderColumnMapping(map);
 		ReaderRowMapper<Contact> rowMapper = new BeanReaderRowMapper<Contact>(Contact.class, mappingStrategy);
 		FileInputStream reader = new FileInputStream("testdata/contacts.csv");
 		CSVReader<Contact> csvReader = new CSVReader<Contact>(rowMapper);

@@ -8,14 +8,14 @@ public class HeaderColumnNameMappingTest {
 
 	@Test(expected = IllegalStateException.class)
 	public void getPropertyWithNoHeader() {
-		ColumnMapping columnMapping = new HeaderColumnNameMapping(new String[] { "low", "high" },
+		ColumnMapping columnMapping = new HeaderColumnMapping(new String[] { "low", "high" },
 				new String[] { "Up", "Down" });
 		columnMapping.getProperty(0);
 	}
 
 	@Test
 	public void getProperty() {
-		HeaderColumnNameMapping columnMapping = new HeaderColumnNameMapping(new String[] { "low", "high" },
+		HeaderColumnMapping columnMapping = new HeaderColumnMapping(new String[] { "low", "high" },
 				new String[] { "Down", "Up" });
 		columnMapping.setHeaderRow(new String[] { "  Up  ", "Down" });
 		assertNull(columnMapping.getProperty(3));
@@ -28,7 +28,7 @@ public class HeaderColumnNameMappingTest {
 
 	@Test
 	public void notTrimmingWhitespace() {
-		HeaderColumnNameMapping columnMapping = new HeaderColumnNameMapping(new String[] { "low", "high" },
+		HeaderColumnMapping columnMapping = new HeaderColumnMapping(new String[] { "low", "high" },
 				new String[] { "Down", "Up" });
 		columnMapping.setTrimWhiteSpace(false);
 		columnMapping.setHeaderRow(new String[] { "  Up  ", "Down" });
@@ -38,7 +38,7 @@ public class HeaderColumnNameMappingTest {
 
 	@Test
 	public void testConvertToLowercase() {
-		HeaderColumnNameMapping columnMapping = new HeaderColumnNameMapping(new String[] { "low", "high" },
+		HeaderColumnMapping columnMapping = new HeaderColumnMapping(new String[] { "low", "high" },
 				new String[] { "down", "up" });
 		columnMapping.setConvertToLowerCase(true);
 		columnMapping.setHeaderRow(new String[] { "UP  ", "   dowN" });

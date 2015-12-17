@@ -10,7 +10,7 @@ public class MapReaderRowMapperTest {
 
     @Test
     public void testGetRow() {
-        ColumnMapping columnMapping = new ColumnPositionMapping(new String[] { "side", "dish","price" });
+        ColumnMapping columnMapping = new PositionColumnMapping(new String[] { "side", "dish","price" });
         MapReaderRowMapper mapper = new MapReaderRowMapper(columnMapping);
         String[] row = new String[] { "Bacon", "Eggs", "100" };
         Map<String, String> map = mapper.getRow(row, 1);

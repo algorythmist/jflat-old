@@ -40,7 +40,7 @@ public class PoiExcelReaderTest {
 
 	private void readAll(String filename) throws IOException {
 		
-		PoiExcelReader<StockPrice> reader = new PoiExcelReader<StockPrice>(StockPrice.class,
+		ExcelReader<StockPrice> reader = new ExcelReader<StockPrice>(StockPrice.class,
 				new String[] { "date", "openPrice", "closePrice", "volume" },
 				new String[] { "Date", "Open", "Close", "Volume" });
 		// read all the prices

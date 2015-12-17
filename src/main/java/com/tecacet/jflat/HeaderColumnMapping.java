@@ -26,7 +26,7 @@ import java.util.Map;
  * @author Dimitri Papaioannou
  * 
  */
-public class HeaderColumnNameMapping implements ColumnMapping {
+public class HeaderColumnMapping implements ColumnMapping {
     protected String[] header;
     protected Map<String, String> columnMapping = null;
     
@@ -36,15 +36,15 @@ public class HeaderColumnNameMapping implements ColumnMapping {
     /**
      * Empty protected constructor as a convenience for extending 
      */
-    protected HeaderColumnNameMapping() {
+    protected HeaderColumnMapping() {
         
     }
     
-    public HeaderColumnNameMapping(Map<String, String> columnMapping) {
+    public HeaderColumnMapping(Map<String, String> columnMapping) {
         this.columnMapping = columnMapping;
     }
 
-    public HeaderColumnNameMapping(String[] properties, String[] columns) {
+    public HeaderColumnMapping(String[] properties, String[] columns) {
         this.columnMapping = new HashMap<String, String>();
         for (int i = 0; i < columns.length; i++) {
             columnMapping.put(columns[i], properties[i]);
