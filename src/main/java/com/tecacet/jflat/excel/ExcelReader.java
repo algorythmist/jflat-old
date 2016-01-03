@@ -18,9 +18,12 @@ package com.tecacet.jflat.excel;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -54,6 +57,7 @@ limitations under the License.
 public class ExcelReader<T> extends AbstractTabularDataReader<T> {
 
 	private NumberFormat numberFormat = new DecimalFormat("#.#####");
+	private DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
 	public ExcelReader(ReaderRowMapper<T> mapper) throws IOException {
 		super(mapper);
@@ -94,7 +98,7 @@ public class ExcelReader<T> extends AbstractTabularDataReader<T> {
 		}
 	}
 
-	protected String[] readRow(Row row) {
+	private String[] readRow(Row row) {
 		List<String> tokens = new ArrayList<String>();
 		for (int c = row.getFirstCellNum(); c < row.getLastCellNum(); c++) {
 			Cell cell = row.getCell(c);
@@ -114,7 +118,8 @@ public class ExcelReader<T> extends AbstractTabularDataReader<T> {
 			return cell.getRichStringCellValue().getString();
 		case Cell.CELL_TYPE_NUMERIC:
 			if (DateUtil.isCellDateFormatted(cell)) {
-				return cell.getDateCellValue().toString();
+				Date date = cell.getDateCellValue();
+				return dateFormat.format(date);
 			} else {
 				double d = cell.getNumericCellValue();
 				// TODO find a flexible enough format for all numeric types
