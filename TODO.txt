@@ -6,4 +6,3 @@
 - map multiple properties to single field (writer)
 - increase code coverage
 - parse phone numbers
-- Java 8 version
