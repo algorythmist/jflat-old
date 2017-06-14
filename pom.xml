@@ -33,19 +33,19 @@
 	</licenses>
 
 	<scm>
-		<url>https://github.com/stochasticstoic/jflat</url>
-		<connection>scm:git:git@github.com:stochasticstoic/jflat.git</connection>
-		<developerConnection>scm:git:git@github.com:stochasticstoic/jflat.git</developerConnection>
+		<url>https://github.com/algorythmist/jflat</url>
+		<connection>scm:git:git@github.com:algorythmist/jflat.git</connection>
+		<developerConnection>scm:git:git@github.com:algorythmist/jflat.git</developerConnection>
 	</scm>
 
 	<ciManagement>
-		<system>Jenkins</system>
-		<url>http://www.tecacet.com/jenkins/job/JFlat/</url>
+		<system>TravisCI</system>
+		<url>https://travis-ci.org/algorythmist/jflat</url>
 	</ciManagement>
 
 	<issueManagement>
-		<system>Google</system>
-		<url>http://code.google.com/p/jflat/issues/list/</url>
+		<system>GitHub</system>
+		<url>https://github.com/algorythmist/JFApi/issues</url>
 	</issueManagement>
 
 	<properties>
