@@ -12,7 +12,7 @@
 		There are also tools to generate Java Beans to/from JDBC and Swing tables. 
 		JFlat is highly extensible and can be adopted to support additional formats.
 	</description>
-	<url>http://code.google.com/p/jflat/</url>
+	<url>https://github.com/algorythmist/jflat/</url>
 	<developers>
 		<developer>
 			<name>Dimitri Papaioannou</name>
@@ -45,7 +45,7 @@
 
 	<issueManagement>
 		<system>GitHub</system>
-		<url>https://github.com/algorythmist/JFApi/issues</url>
+		<url>https://github.com/algorythmist/jflat/issues</url>
 	</issueManagement>
 
 	<properties>
